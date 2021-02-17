@@ -12,7 +12,7 @@ import firebase from "firebase/app";
 
 // Add the Firebase services that you want to use
 import "firebase/auth";
-import "firebase/firestore";
+import "firebase/database";
 
 // --- Global Layout
 import {
@@ -29,14 +29,14 @@ import GlobalNav from './components/Nav/globalNav';
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB2J7WbVw3IgDSMooPb-SYn-IDOXZhhvmA",
-  authDomain: "turnsheet-creator.firebaseapp.com",
-  databaseURL: "https://turnsheet-creator-default-rtdb.firebaseio.com",
-  projectId: "turnsheet-creator",
-  storageBucket: "turnsheet-creator.appspot.com",
-  messagingSenderId: "805556815927",
-  appId: "1:805556815927:web:740ba9e7c4f21db5d097b2",
-  measurementId: "G-GL77XZ73Z3"
+  apiKey: process.env.REACT_APP_APIKEY,
+  authDomain: process.env.REACT_APP_AUTHDOMAIN,
+  databaseURL: process.env.REACT_APP_DBURL,
+  projectId: process.env.REACT_APP_PROJECTID,
+  storageBucket: process.env.REACT_APP_STORAGEBUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
+  appId: process.env.REACT_APP_APPID,
+  measurementId: process.env.REACT_APP_MEASUREMENTID
 };
 
 // Initialize Firebase
