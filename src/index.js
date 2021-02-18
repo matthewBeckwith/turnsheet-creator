@@ -50,7 +50,10 @@ ReactDOM.render((
 
       <Container>
         <Switch>
-          <Route path="/" exact component={HomePg} />
+          <Route path="/" exact
+            render={(props) => (
+              <HomePg {...props} firebase={firebase} />
+            )} />
           <Route path="/turnsheet" exact component={TurnsheetPg} />
         </Switch>
       </Container>
