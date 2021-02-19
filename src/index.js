@@ -7,13 +7,6 @@ import {
 } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 
-// --- Firebase
-import firebase from "firebase/app";
-
-// Add the Firebase services that you want to use
-import "firebase/auth";
-import "firebase/database";
-
 // --- Global Layout
 import {
   Container
@@ -28,21 +21,6 @@ import TurnsheetPg from './pages/turnsheet_pg';
 import GlobalNav from './components/Nav/globalNav';
 
 
-const firebaseConfig = {
-  apiKey: process.env.REACT_APP_APIKEY,
-  authDomain: process.env.REACT_APP_AUTHDOMAIN,
-  databaseURL: process.env.REACT_APP_DBURL,
-  projectId: process.env.REACT_APP_PROJECTID,
-  storageBucket: process.env.REACT_APP_STORAGEBUCKET,
-  messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
-  appId: process.env.REACT_APP_APPID,
-  measurementId: process.env.REACT_APP_MEASUREMENTID
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
-
 ReactDOM.render((
   <React.StrictMode>
     <Router>
@@ -52,7 +30,7 @@ ReactDOM.render((
         <Switch>
           <Route path="/" exact
             render={(props) => (
-              <HomePg {...props} firebase={firebase} />
+              <HomePg {...props} />
             )} />
           <Route path="/turnsheet" exact component={TurnsheetPg} />
         </Switch>
