@@ -28,10 +28,7 @@ ReactDOM.render((
 
       <Container>
         <Switch>
-          <Route path="/" exact
-            render={(props) => (
-              <HomePg {...props} />
-            )} />
+          <Route path="/" exact component={HomePg} />
           <Route path="/turnsheet" exact component={TurnsheetPg} />
         </Switch>
       </Container>
