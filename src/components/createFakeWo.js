@@ -30,7 +30,7 @@ function createTurnssheetId() {
         num.push(Math.floor(Math.random() * 9));
     }
 
-    return num.join();
+    return num.join('');
 }
 
 export default function CreateFakeWo(year) {
@@ -40,11 +40,26 @@ export default function CreateFakeWo(year) {
     const streetType = rando(streetTypeOptions);
     const zipCode = rando(zipcodeOptions);
     const totalCost = rando(priceOptions);
+    const createdDate = new Date();
+    const createdDay = createdDate.getDay();
+    const createdMonth = createdDate.getMonth();
+    const createdYear = createdDate.getFullYear();
+    const addDays = createdDay + 6;
+    const dueDateCombined = `${createdYear}-${createdMonth}-${addDays}`;
+    const dueDate = new Date(dueDateCombined);
+
+    console.log("Created Date - ", createdDate);
+    console.log("Created Day - ", createdDay);
+    console.log("Created Month - ", createdMonth);
+    console.log("Created Year - ", createdYear);
+    console.log("Created Add Days - ", addDays);
+    console.log("Created Due Date Combined - ", dueDateCombined);
+    console.log("Created Due Date - ", dueDate);
 
     const fakeWo = {
         address: `${unitNum} ${street} ${streetType}, Lakeland FL, ${zipCode}`,
-        created_at: new Date.now(),
-        due_by: new Date.now() + 6,
+        created_at: createdDate,
+        due_by: dueDate,
         total_cost: totalCost,
         turnsheet_id: createTurnssheetId()
     }
