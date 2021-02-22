@@ -1,4 +1,4 @@
-import React from 'react';
+import { Today } from "@material-ui/icons";
 import firebase from "../services/firebase";
 
 const unitNumberOptions = [
@@ -16,10 +16,38 @@ const zipcodeOptions = [
 const priceOptions = [
     125.50, 300.24, 1000.00, 850.00, 672.30, 100.00, 532.22
 ]
-export default function CreateFakeWo() {
-    return (
-        <div>
 
-        </div>
-    )
+function rando(list) {
+    const rand = Math.floor(Math.random() * list.length);
+
+    return list[rand];
+}
+
+function createTurnssheetId() {
+    let num = []
+
+    while (num.length < 6) {
+        num.push(Math.floor(Math.random() * 9));
+    }
+
+    return num.join();
+}
+
+export default function CreateFakeWo(year) {
+    const db = firebase.database().ref(`grouped_by_year/${year}`);
+    const unitNum = rando(unitNumberOptions);
+    const street = rando(unitStreetOptions);
+    const streetType = rando(streetTypeOptions);
+    const zipCode = rando(zipcodeOptions);
+    const totalCost = rando(priceOptions);
+
+    const fakeWo = {
+        address: `${unitNum} ${street} ${streetType}, Lakeland FL, ${zipCode}`,
+        created_at: new Date.now(),
+        due_by: new Date.now() + 6,
+        total_cost: totalCost,
+        turnsheet_id: createTurnssheetId()
+    }
+
+    db.push(fakeWo);
 }

@@ -16,7 +16,12 @@ import PrintIcon from "@material-ui/icons/Print";
 export default function TurnsheetListItem({ index, turn }) {
   return (
     <ListItem divider key={`item-${turn.id}-${index}`}>
-      <ListItemText primary={turn.address} secondary={turn.total_cost} />
+      <ListItemText
+        primary={turn.address}
+        secondary={`Total: $${turn.total_cost}    Created: ${Date(
+          turn.created_at
+        )}    Due: ${Date(turn.due_by).toLocaleString()}`}
+      />
       <ListItemSecondaryAction edge="end">
         <ButtonGroup
           variant="contained"
