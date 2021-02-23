@@ -1,5 +1,7 @@
 import firebase from "../services/firebase";
-
+const yearChoices=[
+    '2018','2019','2020','2021'
+]
 const unitNumberOptions = [
     '1234', '4561', '7894', '1597', '2356', '6542', '7865', '4578', '8985', '3565', '5412', '8451', '4124', '8524', '6532', '4573', '5288', '1124', '2411'
 ];
@@ -38,7 +40,8 @@ function createDueDate() {
     return temp.toDateString();
 }
 
-export default function CreateFakeWo(year) {
+export default function CreateFakeWo() {
+    const year = rando(yearChoices);
     const db = firebase.database().ref(`grouped_by_year/${year}`);
     const unitNum = rando(unitNumberOptions);
     const street = rando(unitStreetOptions);
