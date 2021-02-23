@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
-import TurnsheetListItem from "./turnsheet_list_item";
+import React from "react";
+import firebase from "../services/firebase";
+import { useList } from "react-firebase-hooks/database";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { ListSubheader } from "@material-ui/core";
+
+import TurnsheetListItem from "./turnsheet_list_item";
 
 const useStyles = makeStyles((theme) => ({
   listSection: {
@@ -16,27 +19,30 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TurnsheetList({ year }) {
   const classes = useStyles();
-  const [turns, setTurns] = useState([]);
-
-  useEffect(() => {
-    const turnList = [];
-
-    for (let id in year) {
-      if (year[id].hasOwnProperty("address")) {
-        turnList.push({ id, ...year[id] });
-      }
-    }
-
-    setTurns(turnList);
-  }, []);
+  const [turns, loading, error] = useList(
+    firebase.database().ref(`grouped_by_year/${year}`)
+  );
 
   return (
-    <li key={`section-${year.id}`} className={classes.listSection}>
+    <li key={`section-${year}`} className={classes.listSection}>
       <ul className={classes.ul}>
-        <ListSubheader>{year.id}</ListSubheader>
-        {turns.map((turn, index) => {
-          return <TurnsheetListItem key={index} index={index} turn={turn} />;
-        })}
+        <ListSubheader>{year}</ListSubheader>
+        {error && <strong>Error: {error}</strong>}
+        {loading && <span>Loading...</span>}
+        {!loading && turns && (
+          <React.Fragment>
+            {turns.map((turn, index) => {
+              return (
+                <TurnsheetListItem
+                  key={index}
+                  index={index}
+                  year={year}
+                  turn={turn.val()}
+                />
+              );
+            })}
+          </React.Fragment>
+        )}
       </ul>
     </li>
   );

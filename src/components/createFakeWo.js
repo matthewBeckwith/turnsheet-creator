@@ -35,8 +35,6 @@ function createTurnssheetId() {
 function createDueDate() {
     const temp = new Date();
     temp.setDate(temp.getDate() + 6);
-
-    console.log(temp)
     return temp.toDateString();
 }
 

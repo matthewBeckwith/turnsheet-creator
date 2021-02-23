@@ -14,9 +14,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import SearchIcon from "@material-ui/icons/Search";
 import PrintIcon from "@material-ui/icons/Print";
 
-export default function TurnsheetListItem({ index, turn }) {
+export default function TurnsheetListItem({ index, year, turn }) {
   return (
-    <ListItem divider key={`item-${turn.id}-${index}`}>
+    <ListItem divider key={`${year}-item-${index}`}>
       <ListItemText
         primary={turn.address}
         secondary={

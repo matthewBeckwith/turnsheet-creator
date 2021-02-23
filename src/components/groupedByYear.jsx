@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import firebase from "../services/firebase";
+import { useListKeys } from "react-firebase-hooks/database";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { List } from "@material-ui/core";
@@ -8,12 +9,19 @@ import TurnsheetList from "./turnsheet_list";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: "80px",
+    marginTop: "50px",
     width: "100%",
     backgroundColor: theme.palette.background.paper,
     position: "relative",
     overflow: "auto",
-    maxHeight: "80vh",
+    maxHeight: "70vh",
+
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      display: "none",
+    },
   },
   listSection: {
     backgroundColor: "inherit",
@@ -26,30 +34,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function GroupedByYear() {
   const classes = useStyles();
-  const [years, setYears] = useState([]);
-  const db = firebase.database().ref("grouped_by_year");
-
-  useEffect(() => {
-    const listener = db.on("value", (snapshot) => {
-      const yearsSnap = snapshot.val();
-      const yearsList = [];
-
-      for (let id in yearsSnap) {
-        yearsList.push({ id, ...yearsSnap[id] });
-      }
-      setYears(yearsList);
-    });
-    return () => db.off("value", listener);
-  }, []);
+  const [years, loading, error] = useListKeys(
+    firebase.database().ref(`grouped_by_year`)
+  );
 
   return (
     <List className={classes.root} subheader={<li />}>
-      {years.length > 0 ? (
-        years.map((year, index) => {
-          return <TurnsheetList key={index} year={year} />;
-        })
-      ) : (
-        <p>Loading...</p>
+      {error && <strong>Error: {error}</strong>}
+      {loading && <span>Loading...</span>}
+      {!loading && years && (
+        <React.Fragment>
+          {years.map((year, index) => {
+            return <TurnsheetList key={index} year={year} />;
+          })}
+        </React.Fragment>
       )}
     </List>
   );
