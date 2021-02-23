@@ -1,4 +1,6 @@
 import React from "react";
+
+import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
 import AddItemModal from "../components/AddItemModal";
@@ -13,10 +15,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TurnsheetPg() {
   const classes = useStyles();
+  const {id} = useParams();
 
   return (
     <div className={classes.root}>
-      <div>Turnsheet Page!</div>
+      {
+        id ? <div>Turnsheet ID: {id}</div>
+        : <div>Turnsheet Page!</div>
+      }
 
       <AddItemModal />
     </div>

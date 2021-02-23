@@ -64,7 +64,7 @@ export default function HomeNav() {
 
   return (
     <Toolbar>
-      <Link to="/turnsheet" className={classes.menuButtonLink}>
+      <Link to="/create_turnsheet" className={classes.menuButtonLink}>
         <IconButton
           edge="start"
           className={classes.menuButton}

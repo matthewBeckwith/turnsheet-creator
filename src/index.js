@@ -28,8 +28,9 @@ ReactDOM.render((
 
       <Container>
         <Switch>
+          <Route path="/edit_turnsheet/:id" component={TurnsheetPg} />
+          <Route path="/create_turnsheet" exact component={TurnsheetPg} />
           <Route path="/" exact component={HomePg} />
-          <Route path="/turnsheet" exact component={TurnsheetPg} />
         </Switch>
       </Container>
 

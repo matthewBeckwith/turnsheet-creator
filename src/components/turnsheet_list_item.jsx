@@ -13,6 +13,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SearchIcon from "@material-ui/icons/Search";
 import PrintIcon from "@material-ui/icons/Print";
+import { Link } from "react-router-dom";
 
 export default function TurnsheetListItem({ index, year, turn }) {
   return (
@@ -40,9 +41,12 @@ export default function TurnsheetListItem({ index, year, turn }) {
           aria-label="contained primary button group"
           size="small"
         >
-          <Button>
+
+            <Button component={Link} to={`/edit_turnsheet/${turn.turnsheet_id}`}>
             <EditIcon />
           </Button>
+
+          
           <Button>
             <SearchIcon />
           </Button>
