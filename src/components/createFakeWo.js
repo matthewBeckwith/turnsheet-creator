@@ -1,4 +1,3 @@
-import { Today } from "@material-ui/icons";
 import firebase from "../services/firebase";
 
 const unitNumberOptions = [
@@ -33,6 +32,14 @@ function createTurnssheetId() {
     return num.join('');
 }
 
+function createDueDate() {
+    const temp = new Date();
+    temp.setDate(temp.getDate() + 6);
+
+    console.log(temp)
+    return temp.toDateString();
+}
+
 export default function CreateFakeWo(year) {
     const db = firebase.database().ref(`grouped_by_year/${year}`);
     const unitNum = rando(unitNumberOptions);
@@ -40,26 +47,11 @@ export default function CreateFakeWo(year) {
     const streetType = rando(streetTypeOptions);
     const zipCode = rando(zipcodeOptions);
     const totalCost = rando(priceOptions);
-    const createdDate = new Date();
-    const createdDay = createdDate.getDay();
-    const createdMonth = createdDate.getMonth();
-    const createdYear = createdDate.getFullYear();
-    const addDays = createdDay + 6;
-    const dueDateCombined = `${createdYear}-${createdMonth}-${addDays}`;
-    const dueDate = new Date(dueDateCombined);
-
-    console.log("Created Date - ", createdDate);
-    console.log("Created Day - ", createdDay);
-    console.log("Created Month - ", createdMonth);
-    console.log("Created Year - ", createdYear);
-    console.log("Created Add Days - ", addDays);
-    console.log("Created Due Date Combined - ", dueDateCombined);
-    console.log("Created Due Date - ", dueDate);
 
     const fakeWo = {
         address: `${unitNum} ${street} ${streetType}, Lakeland FL, ${zipCode}`,
-        created_at: createdDate,
-        due_by: dueDate,
+        created_at: new Date().toDateString(),
+        due_by: createDueDate(),
         total_cost: totalCost,
         turnsheet_id: createTurnssheetId()
     }

@@ -27,10 +27,10 @@ const useStyles = makeStyles((theme) => ({
 export default function GroupedByYear() {
   const classes = useStyles();
   const [years, setYears] = useState([]);
+  const db = firebase.database().ref("grouped_by_year");
 
   useEffect(() => {
-    const db = firebase.database().ref("grouped_by_year");
-    db.on("value", (snapshot) => {
+    const listener = db.on("value", (snapshot) => {
       const yearsSnap = snapshot.val();
       const yearsList = [];
 
@@ -39,6 +39,7 @@ export default function GroupedByYear() {
       }
       setYears(yearsList);
     });
+    return () => db.off("value", listener);
   }, []);
 
   return (
