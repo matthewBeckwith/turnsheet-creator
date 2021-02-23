@@ -8,7 +8,7 @@ import CreateFakeWo from "../components/createFakeWo";
 export default function HomePg() {
   return (
     <div>
-      <Button onClick={() => CreateFakeWo("2022")}>Create Fake WO</Button>
+      <Button onClick={() => CreateFakeWo("2018")}>Create Fake WO</Button>
       <GroupedByYear />
     </div>
   );
