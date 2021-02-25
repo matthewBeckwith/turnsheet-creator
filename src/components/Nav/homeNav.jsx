@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function HomeNav() {
+export default function HomeNav({ handleSearch }) {
   const classes = useStyles();
 
   return (
@@ -103,6 +103,7 @@ export default function HomeNav() {
             input: classes.inputInput,
           }}
           inputProps={{ "aria-label": "search" }}
+          onChange={handleSearch}
         />
       </div>
     </Toolbar>

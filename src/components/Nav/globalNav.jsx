@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { useLocation } from "react-router-dom";
 import HomeNav from "./homeNav";
-import TurnsheetNav from "./turnsheetNav";
+import CreateTurnsheetNav from "./createTurnsheetNav";
 import EditTurnsheetNav from "./editTurnsheetNav";
 
 const useStyles = makeStyles((theme) => ({
@@ -14,16 +14,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function GlobalNav() {
+export default function GlobalNav({ handleSearch }) {
   const classes = useStyles();
   let location = useLocation();
 
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        {location.pathname === "/" && <HomeNav />}
-        {location.pathname === "/create_turnsheet" && <TurnsheetNav />}
-        {location.pathname.slice(0, location.pathname.lastIndexOf('/')) === "/edit_turnsheet" && <EditTurnsheetNav />}
+        {location.pathname === "/" && <HomeNav handleSearch={handleSearch} />}
+        {location.pathname === "/create_turnsheet" && <CreateTurnsheetNav />}
+        {location.pathname.slice(0, location.pathname.lastIndexOf("/")) ===
+          "/edit_turnsheet" && <EditTurnsheetNav />}
       </AppBar>
     </div>
   );

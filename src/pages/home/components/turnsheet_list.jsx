@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TurnsheetList({ year }) {
+export default function TurnsheetList({ year, searchFor }) {
   const classes = useStyles();
   const [turns, loading, error] = useList(
     firebase.database().ref(`grouped_by_year/${year}`)
@@ -31,16 +31,24 @@ export default function TurnsheetList({ year }) {
         {loading && <span>Loading...</span>}
         {!loading && turns && (
           <React.Fragment>
-            {turns.map((turn, index) => {
-              return (
-                <TurnsheetListItem
-                  key={index}
-                  index={index}
-                  year={year}
-                  turn={turn.val()}
-                />
-              );
-            })}
+            {turns
+              .map((turn, index) => {
+                return (
+                  <TurnsheetListItem
+                    key={index}
+                    index={index}
+                    year={year}
+                    turn={turn.val()}
+                  />
+                );
+              })
+              .filter((filteredTurn) => {
+                return (
+                  filteredTurn.props.turn.address
+                    .toLowerCase()
+                    .indexOf(searchFor) > -1
+                );
+              })}
           </React.Fragment>
         )}
       </ul>

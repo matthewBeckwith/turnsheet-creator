@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function GroupedByYear() {
+export default function GroupedByYear({ searchFor }) {
   const classes = useStyles();
   const [years, loading, error] = useListKeys(
     firebase.database().ref(`grouped_by_year`)
@@ -45,7 +45,9 @@ export default function GroupedByYear() {
       {!loading && years && (
         <React.Fragment>
           {years.map((year, index) => {
-            return <TurnsheetList key={index} year={year} />;
+            return (
+              <TurnsheetList key={index} year={year} searchFor={searchFor} />
+            );
           })}
         </React.Fragment>
       )}

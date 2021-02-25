@@ -1,10 +1,10 @@
 import React from "react";
 import GroupedByYear from "./components/groupedByYear";
 
-export default function HomePg() {
+export default function HomePg({ searchFor }) {
   return (
     <div>
-      <GroupedByYear />
+      <GroupedByYear searchFor={searchFor} />
     </div>
   );
 }

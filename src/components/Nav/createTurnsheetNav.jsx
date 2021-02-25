@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TurnsheetNav() {
+export default function CreateTurnsheetNav() {
   const classes = useStyles();
 
   return (
