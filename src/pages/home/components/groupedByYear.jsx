@@ -1,5 +1,5 @@
 import React from "react";
-import firebase from "../services/firebase";
+import firebase from "../../../services/firebase";
 import { useListKeys } from "react-firebase-hooks/database";
 
 import { makeStyles } from "@material-ui/core/styles";

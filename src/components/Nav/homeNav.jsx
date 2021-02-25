@@ -1,12 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { Toolbar, IconButton, Typography, InputBase, Button } from "@material-ui/core";
+import {
+  Toolbar,
+  IconButton,
+  Typography,
+  InputBase,
+  Button,
+} from "@material-ui/core";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
 import SearchIcon from "@material-ui/icons/Search";
 
-import CreateFakeWo from "../../components/createFakeWo";
+import CreateFakeWo from "../../utils/createFakeWo";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -76,15 +82,15 @@ export default function HomeNav() {
           <AddIcon />
         </IconButton>
       </Link>
-      
+
       <Typography className={classes.title} variant="h6" noWrap>
         Turnsheets
       </Typography>
-      
-      
-      <Button variant="contained" color="secondary" onClick={CreateFakeWo}>Create Fake WO</Button>
-      
-      
+
+      <Button variant="contained" color="secondary" onClick={CreateFakeWo}>
+        Create Fake WO
+      </Button>
+
       <div className={classes.search}>
         <div className={classes.searchIcon}>
           <SearchIcon />
