@@ -1,10 +1,8 @@
 import React from "react";
 import firebase from "../../../services/firebase";
 import { useListKeys } from "react-firebase-hooks/database";
-
 import { makeStyles } from "@material-ui/core/styles";
 import { List } from "@material-ui/core";
-
 import TurnsheetList from "./turnsheet_list";
 
 const useStyles = makeStyles((theme) => ({

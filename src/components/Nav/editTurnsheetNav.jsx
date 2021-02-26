@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-// --- Material Imports
 import { Toolbar, IconButton, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CloseIcon from "@material-ui/icons/Close";

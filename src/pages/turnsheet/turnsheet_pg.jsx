@@ -1,8 +1,6 @@
 import React from "react";
-
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-
 import EditTurnsheetFragment from "./edit_turnsheet/editTurnsheetFragment";
 import CreateTurnsheetFragment from "./create_turnsheet/createTurnsheetFragment";
 import AddItemModal from "./components/AddItemModal";
