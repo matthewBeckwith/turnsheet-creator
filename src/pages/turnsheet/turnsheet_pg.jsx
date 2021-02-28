@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import EditTurnsheetFragment from "./edit_turnsheet/editTurnsheetFragment";
 import CreateTurnsheetFragment from "./create_turnsheet/createTurnsheetFragment";
-import AddItemModal from "./components/AddItemModal";
+import AddRoomModal from "./components/addRoomModal";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +21,7 @@ export default function TurnsheetPg() {
     <div className={classes.root}>
       {id ? <EditTurnsheetFragment id={id} /> : <CreateTurnsheetFragment />}
 
-      <AddItemModal />
+      <AddRoomModal />
     </div>
   );
 }

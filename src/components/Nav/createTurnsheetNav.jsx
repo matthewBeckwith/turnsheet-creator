@@ -10,6 +10,7 @@ import {
 import { fade, makeStyles } from "@material-ui/core/styles";
 import CloseIcon from "@material-ui/icons/Close";
 import HomeIcon from "@material-ui/icons/Home";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -105,7 +106,7 @@ export default function CreateTurnsheetNav() {
           <Grid item>
             <div className={classes.txtInput}>
               <div className={classes.txtInputIcon}>
-                <HomeIcon />
+                <AttachMoneyIcon />
               </div>
               <InputBase
                 placeholder="Deposit"
@@ -121,7 +122,7 @@ export default function CreateTurnsheetNav() {
           <Grid item>
             <div className={classes.txtInput}>
               <div className={classes.txtInputIcon}>
-                <HomeIcon />
+                <AttachMoneyIcon />
               </div>
               <InputBase
                 placeholder="Owner Balance"
