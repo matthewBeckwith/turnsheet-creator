@@ -8,7 +8,7 @@ import {
   Grid,
 } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
+import DeleteIcon from "@material-ui/icons/Delete"; 
 import SearchIcon from "@material-ui/icons/Search";
 import PrintIcon from "@material-ui/icons/Print";
 import { Link } from "react-router-dom";
