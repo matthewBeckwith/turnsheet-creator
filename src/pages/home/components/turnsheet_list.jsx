@@ -36,6 +36,7 @@ export default function TurnsheetList({ year, searchFor }) {
                     key={index}
                     index={index}
                     year={year}
+                    turnID={turn.key}
                     turn={turn.val()}
                   />
                 );

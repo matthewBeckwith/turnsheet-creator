@@ -13,7 +13,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import PrintIcon from "@material-ui/icons/Print";
 import { Link } from "react-router-dom";
 
-export default function TurnsheetListItem({ index, year, turn }) {
+export default function TurnsheetListItem({ index, year, turn, turnID }) {
   return (
     <ListItem divider key={`${year}-item-${index}`}>
       <ListItemText
@@ -39,8 +39,7 @@ export default function TurnsheetListItem({ index, year, turn }) {
           aria-label="contained primary button group"
           size="small"
         >
-
-            <Button component={Link} to={`/edit_turnsheet/${turn.turnsheet_id}`}>
+            <Button component={Link} to={`/edit_turnsheet/${turnID}`}>
             <EditIcon />
           </Button>
 

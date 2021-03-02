@@ -5,7 +5,7 @@ import { Container } from "@material-ui/core";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 import HomePg from "./home/home_pg";
-import TurnsheetPg from "./turnsheet/turnsheet_pg";
+import TurnsheetPg from "./turnsheet2/turnsheet_pg";
 import GlobalNav from "../components/nav/globalNav";
 
 const theme = createMuiTheme({
@@ -35,7 +35,7 @@ export default function App() {
 
         <Container>
           <Switch>
-            <Route path="/edit_turnsheet/:id" component={TurnsheetPg} />
+            <Route path="/edit_turnsheet/:ID" component={TurnsheetPg} />
             <Route path="/create_turnsheet" exact component={TurnsheetPg} />
             <Route
               path="/"
