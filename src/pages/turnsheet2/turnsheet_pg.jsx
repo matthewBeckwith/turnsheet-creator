@@ -2,19 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import firebase from "../../services/firebase";
 
+import CreateTurnsheet from './createTurnsheet';
+import EditTurnsheet from './editTurnsheet';
+
 export default function TurnsheetPg() {
   const { ID } = useParams();
   const [turnsheetID, setTurnsheetID] = useState("");
-  const [rooms, setRooms] = useState([]);
-  const [turnsheet, setTurnsheet] = useState({});
-
-  const getRooms = (id) => {
-    return <p>Boom</p>;
-  };
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (ID) {
       setTurnsheetID(ID);
+      setLoading(false);
     } else {
       firebase
         .database()
@@ -22,15 +21,15 @@ export default function TurnsheetPg() {
         .push()
         .then((ref) => {
           setTurnsheetID(ref.key);
+          setLoading(false);
         });
     }
   }, []);
 
   return (
     <div>
-      {ID && <h3>{`Turnsheet ID: ${turnsheetID}`}</h3>}
-      {!ID && <h3>{`Created Turnsheet ID: ${turnsheetID}`}</h3>}
-      {getRooms(turnsheetID)}
+      {!loading && ID && <EditTurnsheet ID={turnsheetID} />}
+      {!loading && !ID && <CreateTurnsheet ID={turnsheetID} />}
     </div>
   );
 }
