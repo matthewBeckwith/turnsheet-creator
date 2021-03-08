@@ -65,7 +65,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CreateTurnsheetNav() {
+export default function CreateTurnsheetNav({
+  handleAddress,
+  handleSecDeposit,
+  handleOwnerBalance,
+}) {
   const classes = useStyles();
 
   return (
@@ -99,7 +103,7 @@ export default function CreateTurnsheetNav() {
                   input: classes.inputInput,
                 }}
                 inputProps={{ "aria-label": "address" }}
-                onChange={(e) => console.log(e.target.value)}
+                onChange={handleAddress}
               />
             </div>
           </Grid>
@@ -115,7 +119,7 @@ export default function CreateTurnsheetNav() {
                   input: classes.inputInput,
                 }}
                 inputProps={{ "aria-label": "deposit" }}
-                onChange={(e) => console.log(e.target.value)}
+                onChange={handleSecDeposit}
               />
             </div>
           </Grid>
@@ -131,7 +135,7 @@ export default function CreateTurnsheetNav() {
                   input: classes.inputInput,
                 }}
                 inputProps={{ "aria-label": "owner balance" }}
-                onChange={(e) => console.log(e.target.value)}
+                onChange={handleOwnerBalance}
               />
             </div>
           </Grid>

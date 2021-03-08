@@ -12,7 +12,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function GlobalNav({ handleSearch }) {
+export default function GlobalNav({
+  handleSearch,
+  handleAddress,
+  handleSecDeposit,
+  handleOwnerBalance,
+}) {
   const classes = useStyles();
   let location = useLocation();
 
@@ -20,9 +25,21 @@ export default function GlobalNav({ handleSearch }) {
     <div className={classes.root}>
       <AppBar position="static">
         {location.pathname === "/" && <HomeNav handleSearch={handleSearch} />}
-        {location.pathname === "/create_turnsheet" && <CreateTurnsheetNav />}
+        {location.pathname === "/create_turnsheet" && (
+          <CreateTurnsheetNav
+            handleAddress={handleAddress}
+            handleSecDeposit={handleSecDeposit}
+            handleOwnerBalance={handleOwnerBalance}
+          />
+        )}
         {location.pathname.slice(0, location.pathname.lastIndexOf("/")) ===
-          "/edit_turnsheet" && <EditTurnsheetNav />}
+          "/edit_turnsheet" && (
+          <EditTurnsheetNav
+            handleAddress={handleAddress}
+            handleSecDeposit={handleSecDeposit}
+            handleOwnerBalance={handleOwnerBalance}
+          />
+        )}
       </AppBar>
     </div>
   );

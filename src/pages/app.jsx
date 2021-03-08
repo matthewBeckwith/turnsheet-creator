@@ -28,15 +28,55 @@ export default function App() {
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
+
+  const [address, setAddress] = useState("");
+  const handleAddress = (e) => {
+    setAddress(e.target.value);
+  };
+
+  const [securityDeposit, setSecurityDeposit] = useState(0);
+  const handleSecDeposit = (e) => {
+    setSecurityDeposit(e.target.value);
+  };
+
+  const [ownerBalance, setOwnerBalance] = useState(0);
+  const handleOwnerBalance = (e) => {
+    setOwnerBalance(e.target.value);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <GlobalNav handleSearch={handleSearch} />
+        <GlobalNav
+          handleSearch={handleSearch}
+          handleAddress={handleAddress}
+          handleSecDeposit={handleSecDeposit}
+          handleOwnerBalance={handleOwnerBalance}
+        />
 
         <Container>
           <Switch>
-            <Route path="/edit_turnsheet/:ID" component={TurnsheetPg} />
-            <Route path="/create_turnsheet" exact component={TurnsheetPg} />
+            <Route
+              path="/edit_turnsheet/:ID"
+              render={() => (
+                <TurnsheetPg
+                  unitAddress={address}
+                  ownerBalance={ownerBalance}
+                  lastSecurityDeposit={securityDeposit}
+                />
+              )}
+            />
+            <Route
+              path="/create_turnsheet"
+              exact
+              render={() => (
+                <TurnsheetPg
+                  unitAddress={address}
+                  ownerBalance={ownerBalance}
+                  lastSecurityDeposit={securityDeposit}
+                />
+              )}
+            />
             <Route
               path="/"
               exact

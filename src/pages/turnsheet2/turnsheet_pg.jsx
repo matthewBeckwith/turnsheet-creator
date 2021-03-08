@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import firebase from "../../services/firebase";
 
-import CreateTurnsheet from './createTurnsheet';
-import EditTurnsheet from './editTurnsheet';
+import CreateTurnsheet from "./createTurnsheet";
+import EditTurnsheet from "./editTurnsheet";
 
-export default function TurnsheetPg() {
+export default function TurnsheetPg({
+  unitAddress,
+  lastSecurityDeposit,
+  ownerBalance,
+}) {
   const { ID } = useParams();
   const [turnsheetID, setTurnsheetID] = useState("");
   const [loading, setLoading] = useState(true);
@@ -28,8 +32,22 @@ export default function TurnsheetPg() {
 
   return (
     <div>
-      {!loading && ID && <EditTurnsheet ID={turnsheetID} />}
-      {!loading && !ID && <CreateTurnsheet ID={turnsheetID} />}
+      {!loading && ID && (
+        <EditTurnsheet
+          ID={turnsheetID}
+          unitAddress={unitAddress}
+          lastSecurityDeposit={lastSecurityDeposit}
+          ownerBalance={ownerBalance}
+        />
+      )}
+      {!loading && !ID && (
+        <CreateTurnsheet
+          ID={turnsheetID}
+          unitAddress={unitAddress}
+          lastSecurityDeposit={lastSecurityDeposit}
+          ownerBalance={ownerBalance}
+        />
+      )}
     </div>
   );
 }

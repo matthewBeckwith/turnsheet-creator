@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditTurnsheetNav() {
+export default function EditTurnsheetNav({ handleAddress }) {
   const classes = useStyles();
 
   return (
