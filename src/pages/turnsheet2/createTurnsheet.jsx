@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
@@ -13,7 +13,7 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 275,
+    marginTop: 20,
   },
   title: {
     fontSize: 14,
@@ -31,62 +31,74 @@ export default function CreateTurnsheet({
   ownerBalance,
 }) {
   const classes = useStyles();
-  const [rooms, setRooms] = useState(["interior"]);
+  const [rooms, setRooms] = useState([]);
+  const [items, setItems] = useState([]);
+
   const addRoom = () => {
     const tempRoomName = `room ${rooms.length}`;
     setRooms([...rooms, tempRoomName]);
   };
+
   const removeRoom = (index) => {
-    const newList = rooms;
+    const newList = [...rooms];
     newList.splice(index, 1);
     setRooms(newList);
   };
 
-  const [items, setItems] = useState([
-    {
-      title: "Standard Cleaning",
-      room_name: "interior",
-      labor_hours: 12.5,
-      labor_cost: 20,
-      material_cost: 0,
-      owner_responsibility: false,
-      item_total: 250,
-      notes: "",
-    },
-    {
-      title: "Replace Air Filter",
-      room_name: "interior",
-      labor_hours: 0.5,
-      labor_cost: 20,
-      material_cost: 10,
-      owner_responsibility: false,
-      item_total: 15,
-      notes: "",
-    },
-  ]);
+  useEffect(() => {
+    setRooms(["interior"]);
+    setItems([
+      {
+        title: "Standard Cleaning",
+        room_name: "interior",
+        labor_hours: 12.5,
+        labor_cost: 20,
+        material_cost: 0,
+        owner_responsibility: false,
+        item_total: 250,
+        notes: "",
+      },
+      {
+        title: "Replace Air Filter",
+        room_name: "interior",
+        labor_hours: 0.5,
+        labor_cost: 20,
+        material_cost: 10,
+        owner_responsibility: false,
+        item_total: 15,
+        notes: "",
+      },
+    ]);
+  }, []);
 
-  const RoomCard = ({ roomName }) => {
+  const RoomCard = ({ roomName, index }) => {
     return (
-      <Card className={classes.root}>
+      <Card>
         <CardContent>
-          <IconButton
-            size="small"
-            component="span"
-            onClick={() => removeRoom(this)}
-          >
-            <DeleteForeverIcon
-              fontSize="inherit"
-              style={{ color: "#990a00" }}
-            />
-          </IconButton>
-          <Typography
-            className={classes.title}
-            color="textSecondary"
-            component="span"
-            gutterBottom
-          >
-            {roomName}
-          </Typography>
+          <Grid container justify="space-between">
+            <Grid item>
+              <Typography
+                className={classes.title}
+                color="textSecondary"
+                component="span"
+                gutterBottom
+              >
+                {roomName}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <IconButton
+                size="small"
+                component="span"
+                onClick={() => removeRoom(index)}
+              >
+                <DeleteForeverIcon
+                  fontSize="inherit"
+                  style={{ color: "#990a00" }}
+                />
+              </IconButton>
+            </Grid>
+          </Grid>
         </CardContent>
         <CardActions>
           <Button size="small">Add Item</Button>
@@ -104,24 +116,31 @@ export default function CreateTurnsheet({
         {ownerBalance ? <p>{ownerBalance}</p> : <p>No Balance</p>}
         {rooms &&
           rooms.map((room) => {
-            return <p key={`${room}-room`}>{room}</p>;
+            const rand = Math.random() * 10000;
+            return <p key={`${room}-${rand}`}>{room}</p>;
           })}
       </div>
     );
   };
 
   return (
-    <Grid container spacing={2}>
-      {rooms &&
+    <Grid container spacing={2} className={classes.root}>
+      {rooms.length > 0 &&
         rooms.map((room, index) => {
+          const rand = Math.random() * 10000;
           return (
-            <Grid item key={`room-${room}`}>
+            <Grid item key={`${room}-${rand}`} xs={12} md={4}>
               <RoomCard roomName={room} index={index} />
             </Grid>
           );
         })}
-      <Grid item>
-        <Button variant="contained" color="secondary" onClick={addRoom}>
+      <Grid item xs={12} md={4}>
+        <Button
+          variant="contained"
+          color="secondary"
+          fullWidth
+          onClick={addRoom}
+        >
           ADD ROOM
         </Button>
       </Grid>
