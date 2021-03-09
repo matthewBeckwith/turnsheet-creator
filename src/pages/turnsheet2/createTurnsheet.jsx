@@ -50,10 +50,9 @@ export default function CreateTurnsheet({
   const classes = useStyles();
   const [rooms, setRooms] = useState([]);
   const [items, setItems] = useState([]);
-  let rand = 0;
 
   const addRoom = () => {
-    rand = Math.floor(Math.random() * 10000);
+    const rand = Math.floor(Math.random() * 10000);
     const tempRoomName = `room ${rand}`;
     setRooms([...rooms, tempRoomName]);
   };
@@ -109,7 +108,7 @@ export default function CreateTurnsheet({
       <Card>
         <CardContent>
           <Grid container justify="space-between">
-            <Grid item gutterBottom>
+            <Grid item>
               <TextField value={roomName} />
             </Grid>
             <Grid item>
@@ -155,7 +154,7 @@ export default function CreateTurnsheet({
         {ownerBalance ? <p>{ownerBalance}</p> : <p>No Balance</p>}
         {rooms &&
           rooms.map((room) => {
-            return <p key={`${room}-${rand}`}>{room}</p>;
+            return <p key={room}>{room}</p>;
           })}
       </div>
     );
@@ -166,7 +165,7 @@ export default function CreateTurnsheet({
       {rooms.length > 0 &&
         rooms.map((room, index) => {
           return (
-            <Grid item key={`${room}-${rand}`} xs={12} md={4}>
+            <Grid item key={room} xs={12} md={4}>
               <RoomCard roomName={room} index={index} />
             </Grid>
           );
