@@ -8,6 +8,8 @@ import {
   CardActions,
   Typography,
   IconButton,
+  List,
+  ListItem,
 } from "@material-ui/core";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
@@ -33,9 +35,11 @@ export default function CreateTurnsheet({
   const classes = useStyles();
   const [rooms, setRooms] = useState([]);
   const [items, setItems] = useState([]);
+  let rand = 0;
 
   const addRoom = () => {
-    const tempRoomName = `room ${rooms.length}`;
+    rand = Math.floor(Math.random() * 10000);
+    const tempRoomName = `room ${rand}`;
     setRooms([...rooms, tempRoomName]);
   };
 
@@ -99,6 +103,15 @@ export default function CreateTurnsheet({
               </IconButton>
             </Grid>
           </Grid>
+          {/* <List>
+            {items.map((item) => {
+              return (
+                <ListItem>
+                  {item.title} - {item.item_total}
+                </ListItem>
+              ).filter(item.title === roomName);
+            })}
+          </List> */}
         </CardContent>
         <CardActions>
           <Button size="small">Add Item</Button>
@@ -116,7 +129,6 @@ export default function CreateTurnsheet({
         {ownerBalance ? <p>{ownerBalance}</p> : <p>No Balance</p>}
         {rooms &&
           rooms.map((room) => {
-            const rand = Math.random() * 10000;
             return <p key={`${room}-${rand}`}>{room}</p>;
           })}
       </div>
@@ -127,7 +139,6 @@ export default function CreateTurnsheet({
     <Grid container spacing={2} className={classes.root}>
       {rooms.length > 0 &&
         rooms.map((room, index) => {
-          const rand = Math.random() * 10000;
           return (
             <Grid item key={`${room}-${rand}`} xs={12} md={4}>
               <RoomCard roomName={room} index={index} />
