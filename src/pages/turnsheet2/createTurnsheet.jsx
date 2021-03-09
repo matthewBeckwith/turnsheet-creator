@@ -77,6 +77,9 @@ export default function CreateTurnsheet({
   }, []);
 
   const RoomCard = ({ roomName, index }) => {
+    const roomItems = items.filter(item => {
+        return item.room_name === roomName
+    });
     return (
       <Card>
         <CardContent>
@@ -105,7 +108,7 @@ export default function CreateTurnsheet({
             </Grid>
           </Grid>
           <List>
-            {items.map((item, index) => {
+            {roomItems.map((item, index) => {
               return (
                 <ListItem key={`${item.room_name}-${index}`}>
                   <ListItemText>{item.title} - {item.item_total}</ListItemText>
