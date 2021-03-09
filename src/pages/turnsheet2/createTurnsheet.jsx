@@ -10,6 +10,7 @@ import {
   IconButton,
   List,
   ListItem,
+  ListItemText
 } from "@material-ui/core";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
@@ -103,15 +104,15 @@ export default function CreateTurnsheet({
               </IconButton>
             </Grid>
           </Grid>
-          {/* <List>
-            {items.map((item) => {
+          <List>
+            {items.map((item, index) => {
               return (
-                <ListItem>
-                  {item.title} - {item.item_total}
+                <ListItem key={`${item.room_name}-${index}`}>
+                  <ListItemText>{item.title} - {item.item_total}</ListItemText>
                 </ListItem>
-              ).filter(item.title === roomName);
+              )
             })}
-          </List> */}
+          </List>
         </CardContent>
         <CardActions>
           <Button size="small">Add Item</Button>
