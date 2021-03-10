@@ -24,19 +24,18 @@ const theme = createMuiTheme({
     MuiCssBaseline: {
       "@global": {
         "::-webkit-scrollbar": {
-          // display: "none",
-          backgroundColor: "rgba(123,123,123,0.1)",
+          backgroundColor: "rgba(217,219,241,0.5)",
           width: 4,
           borderRadius: 20,
           "&:hover": {
-            backgroundColor: "rgba(123,123,123,0.2)",
+            backgroundColor: "rgba(217,219,241,0.7)",
           },
         },
         "::-webkit-scrollbar-thumb": {
-          backgroundColor: "rgba(123,123,123,0.4)",
+          backgroundColor: "#d9dbf1",
           borderRadius: 20,
           "&:hover": {
-            backgroundColor: "rgba(0,123,123,0.6)",
+            backgroundColor: "#4a7b9d",
           },
         },
       },
