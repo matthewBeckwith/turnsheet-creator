@@ -12,9 +12,11 @@ import {
   IconButton,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
 } from "@material-ui/core";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+
+import Room from "./components/room";
 
 const useStyles = makeStyles({
   root: {
@@ -28,17 +30,16 @@ const useStyles = makeStyles({
     marginBottom: 12,
   },
   itemList_root: {
-      height:150,
-      maxHeight:150,
-      overflowY:'scroll',
-      "&::-webkit-scrollbar": {
-            display: "none",
-        },
+    height: 150,
+    maxHeight: 150,
+    overflowY: "scroll",
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
     "&::-webkit-scrollbar-thumb": {
-        display:'none'
+      display: "none",
     },
   },
-  
 });
 
 export default function CreateTurnsheet({
@@ -67,7 +68,7 @@ export default function CreateTurnsheet({
     setRooms(["interior"]);
     setItems([
       {
-//TODO: labor_cost should be a global variable, we only need to know the predicted hours, the cost per hour is always the same.
+        //TODO: labor_cost should be a global variable, we only need to know the predicted hours, the cost per hour is always the same.
         title: "Standard Cleaning",
         room_name: "interior",
         labor_hours: 12.5,
@@ -101,8 +102,8 @@ export default function CreateTurnsheet({
   }, []);
 
   const RoomCard = ({ roomName, index }) => {
-    const roomItems = items.filter(item => {
-        return item.room_name === roomName
+    const roomItems = items.filter((item) => {
+      return item.room_name === roomName;
     });
     return (
       <Card>
@@ -129,17 +130,18 @@ export default function CreateTurnsheet({
               return (
                 <ListItem key={`${item.room_name}-${index}`}>
                   <ListItemText>
-                      <Grid container justify="space-between">
-                          <Grid item>{item.title}</Grid>
-                          <Grid item>${item.item_total}</Grid>
-                    </Grid></ListItemText>
+                    <Grid container justify="space-between">
+                      <Grid item>{item.title}</Grid>
+                      <Grid item>${item.item_total}</Grid>
+                    </Grid>
+                  </ListItemText>
                 </ListItem>
-              )
+              );
             })}
           </List>
         </CardContent>
         <CardActions>
-            <Button size="small">Add Item</Button>
+          <Button size="small">Add Item</Button>
         </CardActions>
       </Card>
     );
@@ -166,7 +168,12 @@ export default function CreateTurnsheet({
         rooms.map((room, index) => {
           return (
             <Grid item key={room} xs={12} md={4}>
-              <RoomCard roomName={room} index={index} />
+              {/* <RoomCard roomName={room} index={index} /> */}
+              <Room
+                roomName={room}
+                index={index}
+                handleRemoveRoom={removeRoom}
+              />
             </Grid>
           );
         })}
