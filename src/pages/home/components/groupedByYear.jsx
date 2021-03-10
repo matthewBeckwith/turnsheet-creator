@@ -4,6 +4,7 @@ import { useListKeys } from "react-firebase-hooks/database";
 import { makeStyles } from "@material-ui/core/styles";
 import { List } from "@material-ui/core";
 import TurnsheetList from "./turnsheet_list";
+import StyledContentLoader from 'styled-content-loader';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,10 +31,10 @@ export default function GroupedByYear({ searchFor }) {
   );
 
   return (
+  <StyledContentLoader isLoading={loading}>
     <List className={classes.root} subheader={<li />}>
       {error && <strong>Error: {error}</strong>}
-      {loading && <span>Loading...</span>}
-      {!loading && years && (
+        {!loading && years && (
         <React.Fragment>
           {years.map((year, index) => {
             return (
@@ -42,6 +43,8 @@ export default function GroupedByYear({ searchFor }) {
           })}
         </React.Fragment>
       )}
+      
     </List>
+    </StyledContentLoader>
   );
 }
