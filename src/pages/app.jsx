@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Container } from "@material-ui/core";
 
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 import HomePg from "./home/home_pg";
 import TurnsheetPg from "./turnsheet2/turnsheet_pg";
@@ -19,7 +20,28 @@ const theme = createMuiTheme({
     contrastThreshold: 3,
     tonalOffset: 0.2,
   },
-  overrides: {},
+  overrides: {
+    MuiCssBaseline: {
+      "@global": {
+        "::-webkit-scrollbar": {
+          // display: "none",
+          backgroundColor: "rgba(123,123,123,0.1)",
+          width: 4,
+          borderRadius: 20,
+          "&:hover": {
+            backgroundColor: "rgba(123,123,123,0.2)",
+          },
+        },
+        "::-webkit-scrollbar-thumb": {
+          backgroundColor: "rgba(123,123,123,0.4)",
+          borderRadius: 20,
+          "&:hover": {
+            backgroundColor: "rgba(0,123,123,0.6)",
+          },
+        },
+      },
+    },
+  },
   props: {},
 });
 
@@ -46,6 +68,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Router>
         <GlobalNav
           handleSearch={handleSearch}

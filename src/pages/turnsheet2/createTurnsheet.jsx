@@ -33,12 +33,6 @@ const useStyles = makeStyles({
     height: 150,
     maxHeight: 150,
     overflowY: "scroll",
-    "&::-webkit-scrollbar": {
-      display: "none",
-    },
-    "&::-webkit-scrollbar-thumb": {
-      display: "none",
-    },
   },
 });
 
@@ -144,21 +138,6 @@ export default function CreateTurnsheet({
           <Button size="small">Add Item</Button>
         </CardActions>
       </Card>
-    );
-  };
-
-  const dataLog = () => {
-    return (
-      <div>
-        <h3>{`Created Turnsheet ID: ${ID}`}</h3>
-        {unitAddress ? <p>{unitAddress}</p> : <p>No Address</p>}
-        {lastSecurityDeposit ? <p>{lastSecurityDeposit}</p> : <p>No Deposit</p>}
-        {ownerBalance ? <p>{ownerBalance}</p> : <p>No Balance</p>}
-        {rooms &&
-          rooms.map((room) => {
-            return <p key={room}>{room}</p>;
-          })}
-      </div>
     );
   };
 

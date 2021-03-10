@@ -13,13 +13,6 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     overflow: "auto",
     maxHeight: "70vh",
-
-    "&::-webkit-scrollbar": {
-      display: "none",
-    },
-    "&::-webkit-scrollbar-thumb": {
-      display: "none",
-    },
   },
   listSection: {
     backgroundColor: "inherit",
