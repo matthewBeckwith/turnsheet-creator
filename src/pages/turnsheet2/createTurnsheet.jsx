@@ -18,6 +18,7 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 import Room from "./components/room";
 import TestFirebase from './testFirebase';
+import StaticTextDataService from '../../utils/testCrud';
 
 const useStyles = makeStyles({
   root: {
@@ -46,6 +47,7 @@ export default function CreateTurnsheet({
   const classes = useStyles();
   const [rooms, setRooms] = useState([]);
   const [items, setItems] = useState([]);
+
   const labor_cost = 20;
 
   const addRoom = () => {
@@ -97,6 +99,13 @@ export default function CreateTurnsheet({
         owner_responsibilty: false
       },
     ]);
+    
+    const testData = StaticTextDataService.getAll().on("value", snapshot => {
+      console.log("test data: ", snapshot.val());
+    });
+
+    
+
   }, []);
 
   const RoomCard = ({ roomName, index }) => {
@@ -171,6 +180,7 @@ export default function CreateTurnsheet({
     //     </Button>
     //   </Grid>
     // </Grid>
-    <TestFirebase />
-  );
+    // <TestFirebase />
+    <div>Hello</div>
+  )
 }
