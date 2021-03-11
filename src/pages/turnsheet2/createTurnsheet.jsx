@@ -17,6 +17,7 @@ import {
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 import Room from "./components/room";
+import TestFirebase from './testFirebase';
 
 const useStyles = makeStyles({
   root: {
@@ -45,6 +46,7 @@ export default function CreateTurnsheet({
   const classes = useStyles();
   const [rooms, setRooms] = useState([]);
   const [items, setItems] = useState([]);
+  const labor_cost = 20;
 
   const addRoom = () => {
     const rand = Math.floor(Math.random() * 10000);
@@ -62,35 +64,37 @@ export default function CreateTurnsheet({
     setRooms(["interior"]);
     setItems([
       {
-        //TODO: labor_cost should be a global variable, we only need to know the predicted hours, the cost per hour is always the same.
-        title: "Standard Cleaning",
-        room_name: "interior",
-        labor_hours: 12.5,
-        labor_cost: 20,
-        material_cost: 0,
-        owner_responsibility: false,
-        item_total: 250,
-        notes: "",
+        item_description: "Standard Cleaning",
+        item_estimated_labor_hours: 12.5,
+        item_estimated_labor_total: 250,
+        item_estimated_material_cost: 0,
+        item_estimated_total_cost: 0,
+        item_notes: "",
+        item_created_at: new Date().toDateString(),
+        item_updated_at: new Date().toDateString(),
+        owner_responsibilty: false
       },
       {
-        title: "Replace Air Filter",
-        room_name: "interior",
-        labor_hours: 0.5,
-        labor_cost: 20,
-        material_cost: 10,
-        owner_responsibility: false,
-        item_total: 15,
-        notes: "",
+        item_description: "Replace Air Filter",
+        item_estimated_labor_hours: 0.25,
+        item_estimated_labor_total: 5,
+        item_estimated_material_cost: 10,
+        item_estimated_total_cost: 15,
+        item_notes: "",
+        item_created_at: new Date().toDateString(),
+        item_updated_at: new Date().toDateString(),
+        owner_responsibilty: false
       },
       {
-        title: "Pest Spray",
-        room_name: "interior",
-        labor_hours: 5,
-        labor_cost: 20,
-        material_cost: 0,
-        owner_responsibility: false,
-        item_total: 100,
-        notes: "",
+        item_description: "Pest Spray",
+        item_estimated_labor_hours: 5,
+        item_estimated_labor_total: 100,
+        item_estimated_material_cost: 0,
+        item_estimated_total_cost: 100,
+        item_notes: "",
+        item_created_at: new Date().toDateString(),
+        item_updated_at: new Date().toDateString(),
+        owner_responsibilty: false
       },
     ]);
   }, []);
@@ -142,30 +146,31 @@ export default function CreateTurnsheet({
   };
 
   return (
-    <Grid container spacing={2} className={classes.root}>
-      {rooms.length > 0 &&
-        rooms.map((room, index) => {
-          return (
-            <Grid item key={room} xs={12} md={4}>
-              {/* <RoomCard roomName={room} index={index} /> */}
-              <Room
-                roomName={room}
-                index={index}
-                handleRemoveRoom={removeRoom}
-              />
-            </Grid>
-          );
-        })}
-      <Grid item xs={12} md={4}>
-        <Button
-          variant="contained"
-          color="secondary"
-          fullWidth
-          onClick={addRoom}
-        >
-          ADD ROOM
-        </Button>
-      </Grid>
-    </Grid>
+    // <Grid container spacing={2} className={classes.root}>
+    //   {rooms.length > 0 &&
+    //     rooms.map((room, index) => {
+    //       return (
+    //         <Grid item key={room} xs={12} md={4}>
+    //           {/* <RoomCard roomName={room} index={index} /> */}
+    //           <Room
+    //             roomName={room}
+    //             index={index}
+    //             handleRemoveRoom={removeRoom}
+    //           />
+    //         </Grid>
+    //       );
+    //     })}
+    //   <Grid item xs={12} md={4}>
+    //     <Button
+    //       variant="contained"
+    //       color="secondary"
+    //       fullWidth
+    //       onClick={addRoom}
+    //     >
+    //       ADD ROOM
+    //     </Button>
+    //   </Grid>
+    // </Grid>
+    <TestFirebase />
   );
 }
