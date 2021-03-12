@@ -1,6 +1,6 @@
 import firebase from "../services/firebase";
 
-const db = firebase.database().ref("/static_text");
+const db = firebase.database().ref("/grouped_by_year");
 
 class StaticTextDataService {
   getAll() {

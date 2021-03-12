@@ -14,7 +14,7 @@ export default function TestFirebase() {
     return (
         <FirebaseDatabaseProvider firebase={firebase} {...firebaseConfig}>
             <FirebaseDatabaseNode
-            path="static_text/"
+            path="grouped_by_year/"
             limitToLast={limit}
             orderByKey
             // orderByValue={"created_at"}

@@ -17,8 +17,8 @@ import {
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 import Room from "./components/room";
-import TestFirebase from './testFirebase';
-import StaticTextDataService from '../../utils/testCrud';
+import TestFirebase from "./testFirebase";
+import StaticTextDataService from "../../utils/testCrud";
 
 const useStyles = makeStyles({
   root: {
@@ -74,7 +74,7 @@ export default function CreateTurnsheet({
         item_notes: "",
         item_created_at: new Date().toDateString(),
         item_updated_at: new Date().toDateString(),
-        owner_responsibilty: false
+        owner_responsibilty: false,
       },
       {
         item_description: "Replace Air Filter",
@@ -85,7 +85,7 @@ export default function CreateTurnsheet({
         item_notes: "",
         item_created_at: new Date().toDateString(),
         item_updated_at: new Date().toDateString(),
-        owner_responsibilty: false
+        owner_responsibilty: false,
       },
       {
         item_description: "Pest Spray",
@@ -96,16 +96,22 @@ export default function CreateTurnsheet({
         item_notes: "",
         item_created_at: new Date().toDateString(),
         item_updated_at: new Date().toDateString(),
-        owner_responsibilty: false
+        owner_responsibilty: false,
       },
     ]);
-    
-    const testData = StaticTextDataService.getAll().on("value", snapshot => {
-      console.log("test data: ", snapshot.val());
+
+    StaticTextDataService.getAll().on("value", (db) => {
+      db.forEach((year) => {
+        console.log("year - ", year.key);
+        year.forEach((turnsheet) => {
+          console.log(turnsheet.val());
+        });
+      });
     });
 
-    
-
+    return () => {
+      StaticTextDataService.getAll().off("value");
+    };
   }, []);
 
   const RoomCard = ({ roomName, index }) => {
@@ -182,5 +188,5 @@ export default function CreateTurnsheet({
     // </Grid>
     // <TestFirebase />
     <div>Hello</div>
-  )
+  );
 }
