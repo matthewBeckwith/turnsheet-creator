@@ -5,6 +5,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { ListSubheader } from "@material-ui/core";
 import TurnsheetListItem from "./turnsheet_list_item";
 
+const db = firebase.database();
+
 const useStyles = makeStyles((theme) => ({
   listSection: {
     backgroundColor: "inherit",
@@ -18,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 export default function TurnsheetList({ year, searchFor }) {
   const classes = useStyles();
   const [turns, loading, error] = useList(
-    firebase.database().ref(`grouped_by_year/${year}`)
+    db.ref(`grouped_by_year/${year}`)
   );
 
   return (
@@ -26,7 +28,7 @@ export default function TurnsheetList({ year, searchFor }) {
       <ul className={classes.ul}>
         <ListSubheader>{year}</ListSubheader>
         {error && <strong>Error: {error}</strong>}
-        {loading && <span>Loading...</span>}
+        {loading && <pre>Loading...</pre>}
         {!loading && turns && (
           <React.Fragment>
             {turns
