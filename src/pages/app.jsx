@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Container } from "@material-ui/core";
 
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import {
+  unstable_createMuiStrictModeTheme as createMuiTheme,
+  ThemeProvider,
+} from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 import HomePg from "./home/home_pg";
