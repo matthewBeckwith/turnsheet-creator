@@ -12,25 +12,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LaborHoursDropdown() {
+export default function LaborHoursDropdown({handleChange, laborHours}) {
   const classes = useStyles();
-  const [laborHours, setLaborHours] = useState(0.5);
-  const [options, setOptions] = useState([]);
-
-  const handleChange = (event) => {
-    setLaborHours(event.target.value);
-  };
-
-  useEffect(() => {
-    while (options.length < 25) {
-      if (options.length === 0) {
-        setOptions([0.5]);
-      } else {
-        const newValue = options[options.length - 1] + 0.5;
-        setOptions([...options, newValue]);
-      }
-    }
-  }, []);
+  const [options, setOptions] = useState([
+    0.5,1,1.5,2,2.5,3,3.5,4,4.5,5,
+    5.5,6,6.5,7,7.5,8,8.5,9,9.5,10,
+  ]);
 
   return (
     <FormControl className={classes.formControl}>
@@ -41,17 +28,13 @@ export default function LaborHoursDropdown() {
         value={laborHours}
         onChange={handleChange}
       >
-        {options.length === 25 ? (
-          options.map((option, index) => {
+        {options.map((option, index) => {
             return (
               <MenuItem key={`option-${index}`} value={option}>
                 {option}
               </MenuItem>
             );
-          })
-        ) : (
-          <pre>Loading...</pre>
-        )}
+          })}
       </Select>
     </FormControl>
   );

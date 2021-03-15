@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddItemModal({ roomName, handleAddItem }) {
+export default function AddItemModal({ roomName, handleAddItem, handleLaborHoursChange, currentLaborHours }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -62,7 +62,7 @@ export default function AddItemModal({ roomName, handleAddItem }) {
             </h2>
             <form onSubmit={handleAddItem}>
               <TextField id="item_description" label="Item Description" />
-              <LaborHoursDropdown />
+              <LaborHoursDropdown handleChange={handleLaborHoursChange} laborHours={currentLaborHours} />
               <TextField
                 id="item_estimated_material_cost"
                 label="Material Cost"
