@@ -1,11 +1,9 @@
 import React from "react";
-import firebase from '../../services/firebase';
+import firebase from "../../services/firebase";
 import { useListKeys } from "react-firebase-hooks/database";
-import { List } from '@material-ui/core';
+import { List } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import TurnsheetList from "./components/turnsheet_list";
-
-const db = firebase.database();
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,13 +26,14 @@ const useStyles = makeStyles((theme) => ({
 export default function HomePg({ searchFor }) {
   const classes = useStyles();
   const [years, loading, error] = useListKeys(
-    db.ref(`grouped_by_year`)
+    firebase.database().ref(`grouped_by_year`)
   );
-  return(
+
+  return (
     <List className={classes.root} subheader={<li />}>
       {error && <strong>Error: {error}</strong>}
       {loading && <pre>Loading...</pre>}
-        {!loading && years && (
+      {!loading && years && (
         <React.Fragment>
           {years.map((year, index) => {
             return (
@@ -44,5 +43,5 @@ export default function HomePg({ searchFor }) {
         </React.Fragment>
       )}
     </List>
-  )
+  );
 }

@@ -90,8 +90,8 @@ export default function CreateTurnsheetNav({
       </Typography>
 
       <form noValidate autoComplete="off">
-        <Grid container>
-          <Grid item>
+        <Grid container justify="space-evenly" spacing={1}>
+          <Grid item xs={12} md={4}>
             <div className={classes.txtInput}>
               <div className={classes.txtInputIcon}>
                 <HomeIcon />
@@ -107,7 +107,7 @@ export default function CreateTurnsheetNav({
               />
             </div>
           </Grid>
-          <Grid item>
+          <Grid item xs={12} md={4}>
             <div className={classes.txtInput}>
               <div className={classes.txtInputIcon}>
                 <AttachMoneyIcon />
@@ -123,7 +123,7 @@ export default function CreateTurnsheetNav({
               />
             </div>
           </Grid>
-          <Grid item>
+          <Grid item xs={12} md={4}>
             <div className={classes.txtInput}>
               <div className={classes.txtInputIcon}>
                 <AttachMoneyIcon />
