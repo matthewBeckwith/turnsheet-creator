@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LaborHoursDropdown({ handleChange, laborHours }) {
   const classes = useStyles();
-  const [options, setOptions] = useState([
+  const [options] = useState([
     0,
     0.5,
     1,
