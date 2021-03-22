@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import {
   Card,
   CardContent,
@@ -12,6 +12,7 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
 import AddItemModal from "./addItemModal";
+import useGetRoomTotal from "../../../hooks/useGetRoomTotal";
 
 const useStyles = makeStyles({
   roomCardRoot: {
@@ -61,24 +62,23 @@ export default function Room({
 
     const labCost = laborHours * 20;
     const matCost =
-      isNaN(itemEstMatCost.value) === true ||
-      typeof itemEstMatCost.value === "string"
+      isNaN(parseFloat(itemEstMatCost.value)) === true
         ? 0
         : parseFloat(itemEstMatCost.value);
+    const est_total = labCost + matCost;
 
     const newItem = {
       [itemDesc.id]: itemDesc.value,
       item_estimated_labor_hours: laborHours,
       item_estimated_labor_total: labCost,
       [itemEstMatCost.id]: matCost,
-      item_estimated_total_cost: labCost + matCost,
+      item_estimated_total_cost: est_total,
       [itemNotes.id]: itemNotes.value,
       [ownerResp.id]: ownerResp.value,
     };
 
     setItems([...items, newItem]);
   };
-
   const removeItem = (index) => {
     const newList = [...items];
     newList.splice(index, 1);
@@ -98,6 +98,7 @@ export default function Room({
           <Grid item>
             <TextField value={room_name} onChange={handleRoomNameChange} />
           </Grid>
+          <Grid item>{useGetRoomTotal(items)}</Grid>
           <Grid item>
             <IconButton
               size="small"
