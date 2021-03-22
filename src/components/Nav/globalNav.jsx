@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar } from "@material-ui/core";
+import { AppBar, Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useLocation } from "react-router-dom";
 import HomeNav from "./homeNav";
@@ -17,6 +17,7 @@ export default function GlobalNav({
   handleAddress,
   handleSecDeposit,
   handleOwnerBalance,
+  grandTotal
 }) {
   const classes = useStyles();
   let location = useLocation();
@@ -25,21 +26,30 @@ export default function GlobalNav({
     <div className={classes.root}>
       <AppBar position="static">
         {location.pathname === "/" && <HomeNav handleSearch={handleSearch} />}
-        {location.pathname === "/create_turnsheet" && (
-          <CreateTurnsheetNav
-            handleAddress={handleAddress}
-            handleSecDeposit={handleSecDeposit}
-            handleOwnerBalance={handleOwnerBalance}
-          />
-        )}
-        {location.pathname.slice(0, location.pathname.lastIndexOf("/")) ===
-          "/edit_turnsheet" && (
-          <EditTurnsheetNav
-            handleAddress={handleAddress}
-            handleSecDeposit={handleSecDeposit}
-            handleOwnerBalance={handleOwnerBalance}
-          />
-        )}
+        
+        
+          <Grid container justify="space-between">
+            <Grid item xs={10}>
+              {location.pathname === "/create_turnsheet" && (
+                <CreateTurnsheetNav
+                  handleAddress={handleAddress}
+                  handleSecDeposit={handleSecDeposit}
+                  handleOwnerBalance={handleOwnerBalance}
+                />
+              )}
+              {location.pathname.slice(0, location.pathname.lastIndexOf("/")) === "/edit_turnsheet" && (
+                <EditTurnsheetNav
+                  handleAddress={handleAddress}
+                  handleSecDeposit={handleSecDeposit}
+                  handleOwnerBalance={handleOwnerBalance}
+                />
+              )}
+            </Grid>
+            <Grid item xs={2}>
+              <Typography component="span">${grandTotal}</Typography>
+            </Grid>
+          </Grid>
+        
       </AppBar>
     </div>
   );

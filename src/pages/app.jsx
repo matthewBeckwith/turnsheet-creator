@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Container } from "@material-ui/core";
+// import { useParams } from "react-router-dom";
 
+import { Container } from "@material-ui/core";
 import {
   unstable_createMuiStrictModeTheme as createMuiTheme,
   ThemeProvider,
 } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
+import firebase from "../services/firebase";
 import HomePg from "./home/home_pg";
 import TurnsheetPg from "./turnsheet2/turnsheet_pg";
 import GlobalNav from "../components/nav/globalNav";
@@ -48,6 +50,8 @@ const theme = createMuiTheme({
 });
 
 export default function App() {
+  // const { ID } = useParams();
+
   const [searchTerm, setSearchTerm] = useState("");
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -68,6 +72,43 @@ export default function App() {
     setOwnerBalance(e.target.value);
   };
 
+  // const [turnsheetID, setTurnsheetID] = useState(null);
+  // useEffect(() => {
+  //   if (ID) {
+  //     setTurnsheetID(ID);
+  //   } else {
+  //     firebase
+  //       .database()
+  //       .ref("turnsheets")
+  //       .push()
+  //       .then((ref) => {
+  //         setTurnsheetID(ref.key);
+  //       });
+  //   }
+  // }, []);
+
+  const [rooms, setRooms] = useState([]);
+  const handleSetDefaultRoom = () => {
+    setRooms(['interior']);
+  };
+  const handleAddRoom = () => {
+    const rand = Math.floor(Math.random() * 10000);
+    const tempRoomName = `room ${rand}`;
+    setRooms([...rooms, tempRoomName]);
+  };
+  const handleRemoveRoom = (index) => {
+    const newList = [...rooms];
+    newList.splice(index, 1);
+    setRooms(newList);
+  };
+
+  const [items, setItems] = useState([]);
+
+  const [grandTotal, setGrandTotal] = useState(0);
+  const handleGrandTotal = () => {
+    setGrandTotal()
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -77,6 +118,7 @@ export default function App() {
           handleAddress={handleAddress}
           handleSecDeposit={handleSecDeposit}
           handleOwnerBalance={handleOwnerBalance}
+          grandTotal={grandTotal}
         />
 
         <Container>
@@ -84,11 +126,7 @@ export default function App() {
             <Route
               path="/edit_turnsheet/:ID"
               render={() => (
-                <TurnsheetPg
-                  unitAddress={address}
-                  ownerBalance={ownerBalance}
-                  lastSecurityDeposit={securityDeposit}
-                />
+                <TurnsheetPg />
               )}
             />
             <Route
@@ -96,9 +134,10 @@ export default function App() {
               exact
               render={() => (
                 <TurnsheetPg
-                  unitAddress={address}
-                  ownerBalance={ownerBalance}
-                  lastSecurityDeposit={securityDeposit}
+                  rooms={rooms}
+                  handleSetDefaultRoom={handleSetDefaultRoom}
+                  handleAddRoom={handleAddRoom}
+                  handleRemoveRoom={handleRemoveRoom}
                 />
               )}
             />

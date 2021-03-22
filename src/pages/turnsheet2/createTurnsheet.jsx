@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Grid } from "@material-ui/core";
 
@@ -26,6 +26,7 @@ const created_date = new Date().toDateString();
 const defaultItems = [
   {
     "item_description": "Standard Cleaning",
+    "item_location": "interior",
     "item_estimated_labor_hours": 12.5,
     "item_estimated_labor_total": 250,
     "item_estimated_material_cost": 0,
@@ -37,6 +38,7 @@ const defaultItems = [
   },
   {
     "item_description": "Air Filter",
+    "item_location": "interior",
     "item_estimated_labor_hours": 0.25,
     "item_estimated_labor_total": 5,
     "item_estimated_material_cost": 10,
@@ -48,6 +50,7 @@ const defaultItems = [
   },
   {
     "item_description": "Pest Control",
+    "item_location": "interior",
     "item_estimated_labor_hours": 5,
     "item_estimated_labor_total": 100,
     "item_estimated_material_cost": 0,
@@ -60,35 +63,27 @@ const defaultItems = [
 ]
 
 export default function CreateTurnsheet({
-  ID,
-  unitAddress,
-  lastSecurityDeposit,
-  ownerBalance,
+  rooms,
+  handleSetDefaultRoom,
+  handleRemoveRoom,
+  handleAddRoom
 }) {
   const classes = useStyles();
 
-  const [rooms, setRooms] = useState(["interior"]);
-  const addRoom = () => {
-    const rand = Math.floor(Math.random() * 10000);
-    const tempRoomName = `room ${rand}`;
-    setRooms([...rooms, tempRoomName]);
-  };
-  const removeRoom = (index) => {
-    const newList = [...rooms];
-    newList.splice(index, 1);
-    setRooms(newList);
-  };
+  useEffect(() => {
+    handleSetDefaultRoom()
+  }, [])
 
   return (
     <Grid container spacing={2} className={classes.root}>
-      {rooms.length > 0 &&
+      {rooms && rooms.length > 0 &&
         rooms.map((room, index) => {
           return (
             <Grid item key={room} xs={12} md={4}>
               <Room
                 roomName={room}
                 index={index}
-                handleRemoveRoom={removeRoom}
+                handleRemoveRoom={handleRemoveRoom}
                 defaultItems={room === 'interior' ? defaultItems : null}
               />
             </Grid>
@@ -99,7 +94,7 @@ export default function CreateTurnsheet({
           variant="contained"
           color="secondary"
           fullWidth
-          onClick={addRoom}
+          onClick={handleAddRoom}
         >
           ADD ROOM
         </Button>

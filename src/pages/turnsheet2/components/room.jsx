@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -6,13 +6,13 @@ import {
   Grid,
   IconButton,
   TextField,
+  Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
 import AddItemModal from "./addItemModal";
-import useGetRoomTotal from "../../../hooks/useGetRoomTotal";
 
 const useStyles = makeStyles({
   roomCardRoot: {
@@ -69,6 +69,7 @@ export default function Room({
 
     const newItem = {
       [itemDesc.id]: itemDesc.value,
+      item_location:roomName,
       item_estimated_labor_hours: laborHours,
       item_estimated_labor_total: labCost,
       [itemEstMatCost.id]: matCost,
@@ -91,15 +92,25 @@ export default function Room({
     }
   }, []);
 
+  const [roomTotalCost, setRoomTotalCost] = useState(0);
+  useEffect(() => {
+    let total = 0;
+    items.forEach(item => {
+        total += item.item_estimated_total_cost;
+    });
+
+    setRoomTotalCost(total);
+  }, [items.length]);
+
   return (
     <Card className={classes.roomCardRoot}>
       <CardContent>
-        <Grid container justify="space-between">
-          <Grid item>
-            <TextField value={room_name} onChange={handleRoomNameChange} />
+        <Grid container justify="space-between" spacing={1}>
+          <Grid item xs={8}>
+            <TextField fullWidth value={room_name} onChange={handleRoomNameChange} />
           </Grid>
-          <Grid item>{useGetRoomTotal(items)}</Grid>
-          <Grid item>
+          <Grid item xs={3}><Typography align="center">${roomTotalCost}</Typography></Grid>
+          <Grid item xs={1}>
             <IconButton
               size="small"
               component="span"

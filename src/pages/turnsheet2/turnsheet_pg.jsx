@@ -1,51 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import firebase from "../../services/firebase";
+import React, { useState } from "react";
 
 import CreateTurnsheet from "./createTurnsheet";
 import EditTurnsheet from "./editTurnsheet";
 
 export default function TurnsheetPg({
-  unitAddress,
-  lastSecurityDeposit,
-  ownerBalance,
+  ID,
+  rooms,
+  handleSetDefaultRoom,
+  handleAddRoom,
+  handleRemoveRoom,
 }) {
-  const { ID } = useParams();
-  const [turnsheetID, setTurnsheetID] = useState("");
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (ID) {
-      setTurnsheetID(ID);
-      setLoading(false);
-    } else {
-      firebase
-        .database()
-        .ref("turnsheets")
-        .push()
-        .then((ref) => {
-          setTurnsheetID(ref.key);
-          setLoading(false);
-        });
-    }
-  }, []);
-
   return (
     <div>
-      {!loading && ID && (
+      {ID && (
         <EditTurnsheet
-          ID={turnsheetID}
-          unitAddress={unitAddress}
-          lastSecurityDeposit={lastSecurityDeposit}
-          ownerBalance={ownerBalance}
-        />
+          ID={ID} />
       )}
-      {!loading && !ID && (
+      {!ID && (
         <CreateTurnsheet
-          ID={turnsheetID}
-          unitAddress={unitAddress}
-          lastSecurityDeposit={lastSecurityDeposit}
-          ownerBalance={ownerBalance}
+          rooms={rooms}
+          handleSetDefaultRoom={handleSetDefaultRoom}
+          handleAddRoom={handleAddRoom}
+          handleRemoveRoom={handleRemoveRoom}
         />
       )}
     </div>
