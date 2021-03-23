@@ -71,7 +71,7 @@ export default function HomeNav({ handleSearch }) {
   const classes = useStyles();
 
   return (
-    <Toolbar>
+    <React.Fragment>
       <Link to="/create_turnsheet" className={classes.menuButtonLink}>
         <IconButton
           edge="start"
@@ -106,6 +106,6 @@ export default function HomeNav({ handleSearch }) {
           onChange={handleSearch}
         />
       </div>
-    </Toolbar>
+    </React.Fragment>
   );
 }
