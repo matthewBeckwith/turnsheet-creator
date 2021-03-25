@@ -15,10 +15,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import CreateFakeWo from "../../utils/createFakeWo";
 
 const useStyles = makeStyles((theme) => ({
-  menuButton: {
-    marginRight: theme.spacing(2),
-    color: "white",
-  },
   title: {
     flexGrow: 1,
     display: "none",

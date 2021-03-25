@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-// import { useParams } from "react-router-dom";
 
 import { Container } from "@material-ui/core";
 import {
@@ -9,10 +8,11 @@ import {
 } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
-import firebase from "../services/firebase";
+import firebase from "../Backup/services/firebase";
 import HomePg from "./home/home_pg";
-import TurnsheetPg from "./turnsheet2/turnsheet_pg";
-import GlobalNav from "../components/nav/globalNav";
+// import TurnsheetPg from "./turnsheet2/turnsheet_pg";
+import Turnsheet from './turnsheet/turnsheet';
+import GlobalNav from "../Backup/components/nav/globalNav";
 
 const theme = createMuiTheme({
   palette: {
@@ -50,7 +50,7 @@ const theme = createMuiTheme({
 });
 
 export default function App() {
-  // const { ID } = useParams();
+  
 
   const [searchTerm, setSearchTerm] = useState("");
   const handleSearch = (e) => {
@@ -72,20 +72,10 @@ export default function App() {
     setOwnerBalance(e.target.value);
   };
 
-  // const [turnsheetID, setTurnsheetID] = useState(null);
-  // useEffect(() => {
-  //   if (ID) {
-  //     setTurnsheetID(ID);
-  //   } else {
-  //     firebase
-  //       .database()
-  //       .ref("turnsheets")
-  //       .push()
-  //       .then((ref) => {
-  //         setTurnsheetID(ref.key);
-  //       });
-  //   }
-  // }, []);
+  const [turnsheetID, setTurnsheetID] = useState(null);
+  const handleTurnsheetID = (ID) => {
+    setTurnsheetID(ID);
+  }
 
   const [rooms, setRooms] = useState([]);
   const handleSetDefaultRoom = () => {
@@ -126,14 +116,16 @@ export default function App() {
             <Route
               path="/edit_turnsheet/:ID"
               render={() => (
-                <TurnsheetPg />
+                <Turnsheet turnsheetID={turnsheetID} handleTurnsheetID={handleTurnsheetID} />
               )}
             />
             <Route
               path="/create_turnsheet"
               exact
               render={() => (
-                <TurnsheetPg
+                <Turnsheet
+                turnsheetID={turnsheetID}
+                handleTurnsheetID={handleTurnsheetID}
                   rooms={rooms}
                   handleSetDefaultRoom={handleSetDefaultRoom}
                   handleAddRoom={handleAddRoom}

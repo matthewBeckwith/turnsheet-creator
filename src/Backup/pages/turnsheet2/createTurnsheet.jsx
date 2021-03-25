@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Button, Grid } from "@material-ui/core";
 
 import Room from "./components/room";
+import defaultItems from  '../../utils/defaultItems';
 
 const useStyles = makeStyles({
   root: {
@@ -23,44 +24,7 @@ const useStyles = makeStyles({
 });
 const created_date = new Date().toDateString();
 
-const defaultItems = [
-  {
-    "item_description": "Standard Cleaning",
-    "item_location": "interior",
-    "item_estimated_labor_hours": 12.5,
-    "item_estimated_labor_total": 250,
-    "item_estimated_material_cost": 0,
-    "item_estimated_total_cost": 250,
-    "item_notes": "",
-    "item_created_at": created_date,
-    "item_updated_at": created_date,
-    "owner_responsibilty": false
-  },
-  {
-    "item_description": "Air Filter",
-    "item_location": "interior",
-    "item_estimated_labor_hours": 0.25,
-    "item_estimated_labor_total": 5,
-    "item_estimated_material_cost": 10,
-    "item_estimated_total_cost": 15,
-    "item_notes": "",
-    "item_created_at": created_date,
-    "item_updated_at": created_date,
-    "owner_responsibilty": false
-  },
-  {
-    "item_description": "Pest Control",
-    "item_location": "interior",
-    "item_estimated_labor_hours": 5,
-    "item_estimated_labor_total": 100,
-    "item_estimated_material_cost": 0,
-    "item_estimated_total_cost": 100,
-    "item_notes": "",
-    "item_created_at": created_date,
-    "item_updated_at": created_date,
-    "owner_responsibilty": false
-  },
-]
+// const defaultItems = defautItems;
 
 export default function CreateTurnsheet({
   rooms,
