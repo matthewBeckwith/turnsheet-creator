@@ -125,6 +125,9 @@ const Turnsheet = () => {
       <Drawer variant="permanent">
         <Toolbar />
         <List style={{ width: 115 }}>
+          <ListItem button onClick={() => console.log("Add Room")}>
+            <ListItemText primary="Add Room" />
+          </ListItem>
           {rooms &&
             rooms.map((room, index) => {
               return (
