@@ -27,6 +27,14 @@ import {
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
+const LaborHourCounter = () => { 
+  return (
+    <div>
+      <p>This will be a labor hours counter</p>
+    </div>
+  )
+}
+
 const Turnsheet = () => {
   const { ID } = useParams();
   const uniqueID = useCreateKey();

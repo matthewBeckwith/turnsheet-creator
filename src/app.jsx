@@ -85,7 +85,7 @@ const Turnsheet = () => {
     // Assign or Create TurnsheetID for Firebase
     console.log("hello from assign or create ID");
     ID ? setTurnsheetID(ID) : setTurnsheetID(uniqueID);
-  }, [uniqueID]);
+  }, [uniqueID]); 
 
   useEffect(() => {
     // Is this an Existing Turnsheet?
