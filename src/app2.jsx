@@ -27,6 +27,9 @@ import {
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
+import DefaultItems from './utils/default_items.json';
+import CommonItems from './utils/common_items.json';
+
 const LaborHourCounter = () => { 
   return (
     <div>
@@ -84,41 +87,7 @@ const Turnsheet = () => {
       const todaysDate = new Date().toDateString();
       setRooms(["interior"]);
       setItems({
-        interior: [
-          {
-            item_description: "Standard Cleaning",
-            item_estimated_labor_hours: 12.5,
-            item_estimated_labor_total: 250,
-            item_estimated_material_cost: 0,
-            item_estimated_total_cost: 250,
-            item_notes: "",
-            item_created_at: todaysDate,
-            item_updated_at: todaysDate,
-            owner_responsibilty: false,
-          },
-          {
-            item_description: "Air Filter",
-            item_estimated_labor_hours: 0.25,
-            item_estimated_labor_total: 5,
-            item_estimated_material_cost: 10,
-            item_estimated_total_cost: 15,
-            item_notes: "",
-            item_created_at: todaysDate,
-            item_updated_at: todaysDate,
-            owner_responsibilty: false,
-          },
-          {
-            item_description: "Pest Control",
-            item_estimated_labor_hours: 5,
-            item_estimated_labor_total: 100,
-            item_estimated_material_cost: 0,
-            item_estimated_total_cost: 100,
-            item_notes: "",
-            item_created_at: todaysDate,
-            item_updated_at: todaysDate,
-            owner_responsibilty: false,
-          },
-        ],
+        interior: DefaultItems
       });
       setCurrentSelection("interior");
     }
