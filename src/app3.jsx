@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import {
     BrowserRouter as Router,
     Switch,
-    Route
+    Route,
+    useParams
   } from "react-router-dom";
 import useCreateKey from './hooks/useCreateKey';
 
@@ -14,18 +15,33 @@ const Turnsheets = () => {
     )
 }
 
-const CreateTurnsheet = () => {
-    return (
-        <div>
-            <p>Create Turnsheet</p>
-        </div>
-    )
-}
-
 const Turnsheet = () => {
+    const {ID} = useParams();
+    const uniqueID = useCreateKey();
+    const todaysDate = new Date().toTimeString();
+
+    const [address, setAddress] = useState(null);
+    const [secDeposit, setSecDeposit] = useState(null);
+    const [ownerBalance, setOwnerBalance] = useState(null);
+    const [rooms, setRooms] = useState(null);
+    const [grandTotal, setGrandTotal] = useState(0);
+    const [ownerSubTotal, setOwnerSubTotal] = useState(0);
+    const [tenantSubTotal, setTenantSubTotal] = useState(0);
+    const [requiresInvestment, toggleRequiresInvestment] = useState(false);
+
+    const handleChangeAddress = (e) => {}
+
+    const handleChangeDeposit = (e) => {}
+
+    const handleChangeOwnerBalance = (e) => {}
+
+    const handleToggleInvestment = () => {
+        toggleRequiresInvestment(!requiresInvestment);
+    }
+
     return (
         <div>
-            <p>Edit / New Turnsheet</p>
+            <p>{ID ? `Edit Turnsheet ${ID}` : `New Turnsheet ${uniqueID}`}</p>
         </div>
     )
 }
@@ -41,45 +57,11 @@ const ErrorPage = () => {
 
 
 export default function App() {
-    const [address, setAddress] = useState(null);
-    const [securityDeposit, setSecurityDeposit] = useState(null);
-    const [ownerBalance, setOwnerBalance] = useState(null);
-    const [basicData, setBasicData] = useState(null);
-
-    const handleAddressChange = (e) => {
-        setAddress(e.target.value);
-    }
-
-    const handleDepositChange = (e) => {
-        setSecurityDeposit(e.target.value);
-    }
-
-    const handleBalanceChange = (e) => {
-        setOwnerBalance(e.target.value);
-    }
-
-    const handleBasicDataSubmit = () => {
-        setBasicData({
-            id: useCreateKey(),
-            address,
-            securityDeposit,
-            ownerBalance
-        });
-        location.replace(`/turnsheet/${setBasicData.id}`);
-    }
-
     return (
         <Router>
             <Switch>
                 <Route path="/turnsheet/:ID"  render={() => <Turnsheet />} />
-                <Route path="/create" exact render={() => 
-                    <CreateTurnsheet 
-                        handleAddressChange={handleAddressChange} 
-                        handleBalanceChange={handleBalanceChange} 
-                        handleDepositChange={handleDepositChange} 
-                        handleBasicDataSubmit={handleBasicDataSubmit} 
-                    />
-                } />
+                <Route path="/turnsheet"  render={() => <Turnsheet />} />
                 <Route path="/" exact component={Turnsheets} />
                 <Route component={ErrorPage} />
             </Switch>
