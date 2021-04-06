@@ -1,87 +1,167 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    useParams
-  } from "react-router-dom";
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useParams,
+} from "react-router-dom";
+import { useListKeys } from "react-firebase-hooks/database";
 
-import firebase from './services/firebase';
-import useCreateKey from './hooks/useCreateKey';
+import firebase from "./services/firebase";
+import useCreateKey from "./hooks/useCreateKey";
+import DefaultItems from "./utils/default_items.json";
 
 const Turnsheets = () => {
-    return <p>Turnsheets</p>
-}
+  return <p>Turnsheets</p>;
+};
 
 const Turnsheet = () => {
-    const {ID} = useParams();
-    const uniqueID = useCreateKey(); 
+  const { ID } = useParams();
+  const uniqueID = useCreateKey();
 
-    const [turnsheetID, setTurnsheetID] = useState(null);
-    const [address, setAddress] = useState(null);
-    const [grandTotal, setGrandTotal] = useState(null);
-    const [requiresInvestment, setRequiresInvestment] = useState(false);
-    const [ownerSubTotal, setOwnerSubTotal] = useState(null);
-    const [tenantSubTotal, setTenantSubTotal] = useState(null);
-    const [rooms, setRooms] = useState(null);
+  const [turnsheetExists, setTurnsheetExists] = useState(null);
+  const [turnsheetID, setTurnsheetID] = useState(null);
+  const [address, setAddress] = useState(null);
+  const [grandTotal, setGrandTotal] = useState(null);
+  const [requiresInvestment, setRequiresInvestment] = useState(false);
+  const [ownerSubTotal, setOwnerSubTotal] = useState(null);
+  const [tenantSubTotal, setTenantSubTotal] = useState(null);
+  const [rooms, setRooms] = useState(null);
 
-    // this is throwing errors but I'm thinking something like this... parse the data into state,
-    // work with it then send back to firebase when complete as an object or couple objects if I
-    // flatten the DB
+  // Check if ID is sent over Params and it exists,
+  // if None is present init new turnsheet,
+  // if it doesnt exist, send user to dashboard (All Turnsheets List)
+  useEffect(() => {
+    if (ID) {
+      firebase
+        .database()
+        .ref("turnsheets")
+        .once("value")
+        .then((snapshot) => {
+          snapshot.hasChild(ID)
+            ? setTurnsheetExists(snapshot.hasChild(ID))
+            : window.location.replace("http://localhost:3000");
+        });
+    } else {
+      setTurnsheetExists(false);
+    }
+  }, [ID]);
 
-    useEffect(() => {
-        if(ID){
-            firebase.database().ref('turnsheets').once('value', snapshot => {
-                snapshot.hasChild(ID)
-            }) && firebase.database().ref(`turnsheets/${ID}`).once('value', snapshot => {
-                setTurnsheetID(ID);
-                setAddress(snapshot.val().address);
-                setGrandTotal(snapshot.val().estimated_grand_total);
-                setRequiresInvestment(snapshot.val().requires_investment);
-                setOwnerSubTotal(snapshot.val().owner_subtotal);
-                setTenantSubTotal(snapshot.val().tenant_subtotal);
-                setRooms(snapshot.val().rooms);
-            })
-        }else{
-            setTurnsheetID(uniqueID);
-                setGrandTotal(0);
-                setOwnerSubTotal(0);
-                setTenantSubTotal(0);
-                setRequiresInvestment(true);
-        }
-        
-    }, [ID, uniqueID]);
+  // If ID exists, parse data to state variables,
+  // else init new turnsheet
+  useEffect(() => {
+    if (turnsheetExists) {
+      firebase
+        .database()
+        .ref(`turnsheets/${ID}`)
+        .once("value", (snapshot) => {
+          const data = snapshot.val();
+          setTurnsheetID(ID);
+          setAddress(data.address);
+          setGrandTotal(data.estimated_grand_total);
+          setRequiresInvestment(data.requires_investment);
+          setOwnerSubTotal(data.owner_subtotal);
+          setTenantSubTotal(data.tenant_subtotal);
+          setRooms([data.rooms]);
+        });
+    } else {
+      setTurnsheetID(uniqueID);
+      setGrandTotal(0);
+      setOwnerSubTotal(0);
+      setTenantSubTotal(0);
+      setRequiresInvestment(true);
+      setRooms([{ interior: true }]);
+    }
+  }, [turnsheetExists, ID, uniqueID]);
 
-    return (
-        <div>
-            <p>{ID ? `Edit` : `New`} Turnsheet {turnsheetID}</p>
-            {address ? <p>{address}</p> : <p>No Address</p>}
-            <p>Grand Total: {grandTotal}</p>
-            <p>Owner Total: {ownerSubTotal}</p>
-            <p>Tenant Total: {tenantSubTotal}</p>
-        </div>
-    )
-}
+  return (
+    <div>
+      <p>
+        {ID ? `Edit` : `New`} Turnsheet {turnsheetID}
+      </p>
+      {address ? <p>{address}</p> : <p>No Address</p>}
+      <p>Grand Total: {grandTotal}</p>
+      <p>Owner Total: {ownerSubTotal}</p>
+      <p>Tenant Total: {tenantSubTotal}</p>
+      {rooms &&
+        rooms.map((room) => {
+          return (
+            <Room
+              key={`room-${room}`}
+              roomName={Object.keys(room)}
+              ID={turnsheetID}
+            />
+          );
+        })}
+    </div>
+  );
+};
+
+const Room = ({ roomName, ID }) => {
+  const [roomTotal, setRoomTotal] = useState(0);
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    firebase
+      .database()
+      .ref(`items/${ID}`)
+      .on("value", (snapshot) => {
+        setItems([snapshot.val()]);
+      });
+  }, [ID]);
+
+  return (
+    <div>
+      <h4>{roomName}</h4>
+      {items &&
+        items
+          .map((item) => {
+            return (
+              <Item key={`${roomName}-item-${Object.keys(item)}`} data={item} />
+            );
+          })
+          .filter((item) => item.room_name === roomName)}
+    </div>
+  );
+};
+
+const Item = ({ data }) => {
+  const [ownerResponsibility, setOwnerResponsibility] = useState(false);
+  const toggleOwnerResponsibility = () => {
+    setOwnerResponsibility(!ownerResponsibility);
+  };
+  return (
+    <div>
+      <p>
+        <input
+          type="checkbox"
+          value={ownerResponsibility}
+          onClick={toggleOwnerResponsibility}
+        />{" "}
+        {data.item_description} - {data.item_estimated_total_cost}
+      </p>
+    </div>
+  );
+};
 
 const ErrorPage = () => {
-    return (
-        <div>
-            <h1>404 ERROR:</h1>
-            <p>This is not a valid address.  Please try again.</p>
-        </div>
-    )
-}
-
+  return (
+    <div>
+      <h1>404 ERROR:</h1>
+      <p>This is not a valid address. Please try again.</p>
+    </div>
+  );
+};
 
 export default function App() {
-    return (
-        <Router>
-            <Switch>
-                <Route path="/turnsheet/:ID"  render={() => <Turnsheet />} />
-                <Route path="/turnsheet"  render={() => <Turnsheet />} />
-                <Route path="/" exact component={Turnsheets} />
-                <Route component={ErrorPage} />
-            </Switch>
-        </Router>
-    )
+  return (
+    <Router>
+      <Switch>
+        <Route path="/turnsheet/:ID" render={() => <Turnsheet />} />
+        <Route path="/turnsheet" render={() => <Turnsheet />} />
+        <Route path="/" exact component={Turnsheets} />
+        <Route component={ErrorPage} />
+      </Switch>
+    </Router>
+  );
 }
