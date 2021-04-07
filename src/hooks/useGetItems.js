@@ -14,7 +14,9 @@ export default function useGetItems(ID, room_name) {
             }) : setItems(DefaultItems);
     }, [ID, exists]);
 
-    console.log(items)
+    useEffect(() => {
+        console.log(items);
+    }, [items])
 
     return items;
 }
