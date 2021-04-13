@@ -8,7 +8,7 @@ import {
 import { Container, Grid, Paper, Typography } from "@material-ui/core";
 
 import useGetItems from "./hooks/useGetItems";
-import {useGetRooms} from "./hooks/useGetRooms";
+import useGetRooms from "./hooks/useGetRooms";
 import useGetTurnData from "./hooks/useGetTurnData";
 import useReturnKey from "./hooks/useReturnKey";
 
@@ -104,10 +104,9 @@ const Turnsheet = () => {
   const { ID } = useParams();
   const turnsheetID = useReturnKey(ID);
   const turnData = useGetTurnData(ID);
-  const rooms = useGetRooms(ID).getAllRooms;
+  const rooms = useGetRooms(turnsheetID);
 
   const TurnsheetData = () => {
-    console.log(rooms)
     return (
       <div className={classes.root}>
         <Paper className={classes.paper}>
@@ -163,11 +162,10 @@ const Turnsheet = () => {
       {turnsheetID ? (
         <Grid item>
           <TurnsheetData />
-          {/* {rooms &&
-            rooms.map((room) => {
-              console.log(room);
-              return <Room key={`room-${room}`} ID={turnsheetID} room_name={room} />
-          })} */}
+          {rooms &&
+            rooms.map((room) => (
+              <Room key={`room-${room}`} ID={turnsheetID} room_name={room} />
+            ))}
         </Grid>
       ) : (
         <p>loading...</p>
@@ -184,7 +182,7 @@ export default function App() {
         <Container>
           <Switch>
             <Route path="/:ID" component={Turnsheet} />
-            <Route path="/" component={Turnsheet} />
+            <Route path="/create" component={Turnsheet} />
           </Switch>
         </Container>
       </Router>
