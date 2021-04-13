@@ -112,17 +112,26 @@ const CreateTurnsheet = () => {
   const [securityDeposit, setSecurityDeposit] = useState("");
   const [ownerBalance, setOwnerBalance] = useState("");
 
-  const handleChangeAddress = (e) => {
-    setAddress(e.target.value);
-  };
 
-  const handleChangeSecurityDeposit = (e) => {
-    setSecurityDeposit(e.target.value);
-  };
 
-  const handleChangeOwnerBalance = (e) => {
-    setOwnerBalance(e.target.value);
-  };
+  const handleTextFieldChange = (e) => {
+    const moneyExp = /^[0-9]+\.[0-9]{2}$/;
+
+    switch(e.target.id){
+      case 'address_textfield': setAddress(e.target.value);
+        break;
+      case 'security_deposit_textfield': 
+        if(moneyExp.test(e.target.value)){
+          setSecurityDeposit(e.target.value)
+        };
+        break;
+      case 'owner_balance_textfield': setOwnerBalance(e.target.value);
+        break;
+      default: console.log(`TextField ID: ${e.target.id} is not currently being handled.`);
+        break;
+    }
+
+  }
 
   return (
     <>
@@ -187,7 +196,7 @@ const CreateTurnsheet = () => {
                   color="secondary"
                   fullWidth
                   value={address}
-                  onChange={(event) => handleChangeAddress(event)}
+                  onChange={(event) => handleTextFieldChange(event)}
                 />
               </Grid>
               <Grid item xs={6} sm={3} lg={2}>
@@ -198,7 +207,7 @@ const CreateTurnsheet = () => {
                   color="secondary"
                   fullWidth
                   value={securityDeposit}
-                  onChange={(event) => handleChangeSecurityDeposit(event)}
+                  onChange={(event) => handleTextFieldChange(event)}
                 />
               </Grid>
               <Grid item xs={6} sm={3} lg={2}>
@@ -209,7 +218,7 @@ const CreateTurnsheet = () => {
                   color="secondary"
                   fullWidth
                   value={ownerBalance}
-                  onChange={(event) => handleChangeOwnerBalance(event)}
+                  onChange={(event) => handleTextFieldChange(event)}
                 />
               </Grid>
             </Grid>
@@ -223,6 +232,8 @@ const CreateTurnsheet = () => {
       <Hidden only="xs">
         <Toolbar style={{ height: 130 }} />
       </Hidden>
+
+      <Typography variant="body1">Items</Typography>
     </>
   );
 };
