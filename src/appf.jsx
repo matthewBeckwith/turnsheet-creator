@@ -105,6 +105,7 @@ const EditTurnsheet = () => {
 
 const CreateTurnsheet = () => {
   const ID = useCreateKey();
+  const moneyExp = /^[0-9]+\.[0-9]{2}$/;
   const [ownerTotal, setOwnerTotal] = useState(0);
   const [tenantTotal, setTenantTotal] = useState(0);
   const [grandTotal, setGrandTotal] = useState(0);
@@ -112,26 +113,24 @@ const CreateTurnsheet = () => {
   const [securityDeposit, setSecurityDeposit] = useState("");
   const [ownerBalance, setOwnerBalance] = useState("");
 
-
-
   const handleTextFieldChange = (e) => {
-    const moneyExp = /^[0-9]+\.[0-9]{2}$/;
-
-    switch(e.target.id){
-      case 'address_textfield': setAddress(e.target.value);
+    switch (e.target.id) {
+      case "address_textfield":
+        setAddress(e.target.value);
         break;
-      case 'security_deposit_textfield': 
-        if(moneyExp.test(e.target.value)){
-          setSecurityDeposit(e.target.value)
-        };
+      case "security_deposit_textfield":
+        setSecurityDeposit(e.target.value);
         break;
-      case 'owner_balance_textfield': setOwnerBalance(e.target.value);
+      case "owner_balance_textfield":
+        setOwnerBalance(e.target.value);
         break;
-      default: console.log(`TextField ID: ${e.target.id} is not currently being handled.`);
+      default:
+        console.log(
+          `TextField ID: ${e.target.id} is not currently being handled.`
+        );
         break;
     }
-
-  }
+  };
 
   return (
     <>
@@ -195,6 +194,7 @@ const CreateTurnsheet = () => {
                   variant="outlined"
                   color="secondary"
                   fullWidth
+                  error={address === "" ? true : false}
                   value={address}
                   onChange={(event) => handleTextFieldChange(event)}
                 />
@@ -206,6 +206,7 @@ const CreateTurnsheet = () => {
                   variant="outlined"
                   color="secondary"
                   fullWidth
+                  error={moneyExp.test(securityDeposit) ? false : true}
                   value={securityDeposit}
                   onChange={(event) => handleTextFieldChange(event)}
                 />
@@ -217,6 +218,7 @@ const CreateTurnsheet = () => {
                   variant="outlined"
                   color="secondary"
                   fullWidth
+                  error={moneyExp.test(ownerBalance) ? false : true}
                   value={ownerBalance}
                   onChange={(event) => handleTextFieldChange(event)}
                 />
