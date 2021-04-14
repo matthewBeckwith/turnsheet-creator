@@ -111,7 +111,9 @@ const CreateTurnsheet = () => {
   const [grandTotal, setGrandTotal] = useState(0);
   const [address, setAddress] = useState("");
   const [securityDeposit, setSecurityDeposit] = useState("");
+  const [securityDepositError, setSecurityDepositError] = useState(false);
   const [ownerBalance, setOwnerBalance] = useState("");
+  const [ownerBalanceError, setOwnerBalanceError] = useState(false);
 
   const handleTextFieldChange = (e) => {
     switch (e.target.id) {
@@ -130,6 +132,18 @@ const CreateTurnsheet = () => {
         );
         break;
     }
+  };
+
+  const validateMoneyFormat = (name) => {
+    switch(name){
+      case 'secDeposit': moneyExp.test(securityDeposit) ? setSecurityDepositError(true) : setSecurityDepositError(false);
+      break;
+      case 'ownerBalance': moneyExp.test(ownerBalance) ? setOwnerBalanceError(true) : setOwnerBalanceError(false);
+      break;
+      default:
+        console.log(`Name: ${name} doesn't exist`);
+    }
+    
   };
 
   return (
@@ -194,7 +208,6 @@ const CreateTurnsheet = () => {
                   variant="outlined"
                   color="secondary"
                   fullWidth
-                  error={address === "" ? true : false}
                   value={address}
                   onChange={(event) => handleTextFieldChange(event)}
                 />
@@ -206,9 +219,11 @@ const CreateTurnsheet = () => {
                   variant="outlined"
                   color="secondary"
                   fullWidth
-                  error={moneyExp.test(securityDeposit) ? false : true}
+                  inputProps={{ pattern: moneyExp }}
                   value={securityDeposit}
+                  error={securityDepositError}
                   onChange={(event) => handleTextFieldChange(event)}
+                  onBlur={() => validateMoneyFormat('secDeposit')}
                 />
               </Grid>
               <Grid item xs={6} sm={3} lg={2}>
@@ -218,9 +233,11 @@ const CreateTurnsheet = () => {
                   variant="outlined"
                   color="secondary"
                   fullWidth
-                  error={moneyExp.test(ownerBalance) ? false : true}
+                  inputProps={{ pattern: moneyExp }}
                   value={ownerBalance}
+                  error={ownerBalanceError}
                   onChange={(event) => handleTextFieldChange(event)}
+                  onBlur={() => validateMoneyFormat('ownerBalance')}
                 />
               </Grid>
             </Grid>
