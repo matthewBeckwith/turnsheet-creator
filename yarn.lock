@@ -10315,6 +10315,11 @@ react-firebase-hooks@^3.0.2:
   resolved "https://registry.yarnpkg.com/react-firebase-hooks/-/react-firebase-hooks-3.0.2.tgz#d82dcaf2f05ea7147fdfc8e57e7871a3adc8768e"
   integrity sha512-rkxX/a3yDDth0znn38mvTr7m6VbB53sRz1ZGI/+Bj0vUZk0djKsB/6k2ABHzGZH7PUnYw/fNg2+gnJ9hHrRFAQ==
 
+react-hanger@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/react-hanger/-/react-hanger-2.3.2.tgz#d1c6e16a866457bf00ba7bbb4b1bfbc8acee1108"
+  integrity sha512-z7Sb1eFited7yuO2qDe4+R4oVHhVv/pZJ1V9SvFbc9+abaZlg5lRQRK7hHWpdKeeq63H5pvajMrnZUzc1lBZYg==
+
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"

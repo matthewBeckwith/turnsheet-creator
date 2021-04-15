@@ -5,6 +5,7 @@ import {
   Route,
   useParams,
 } from "react-router-dom";
+import { useArray } from 'react-hanger';
 import {
   unstable_createMuiStrictModeTheme as createMuiTheme,
   ThemeProvider,
@@ -24,6 +25,7 @@ import {
 } from "@material-ui/core";
 
 import useCreateKey from "./hooks/useCreateKey";
+import DefaultItems from "./utils/default_items.json";
 import ErrorPage from "./pages/error_pg";
 
 const theme = createMuiTheme({
@@ -62,14 +64,30 @@ const theme = createMuiTheme({
 });
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
+  navRoot:{
+    padding:`10px 0 15px 0`,
   },
-  paper: {
+  roomRoot: {
+    flexGrow:1,
     padding: theme.spacing(2),
-    margin: "auto",
+    [theme.breakpoints.down('sm')]:{
+      "& + :not(firstOfType)": {
+        marginTop: 20
+      }
+    }
   },
+  roomItemRoot:{
+    flexGrow: 1,
+    padding: theme.spacing(2),
+    "& + :not(firstOfType)": {
+      marginTop: 5
+    }
+  }
 }));
+
+const VerticalSpace = ({size}) => {
+  return <Toolbar style={{ height: size }} />
+}
 
 const ViewTurnsheet = () => {
   const { ID } = useParams();
@@ -104,6 +122,7 @@ const EditTurnsheet = () => {
 };
 
 const CreateTurnsheet = () => {
+  const classes = useStyles();
   const ID = useCreateKey();
   const moneyExp = /^[0-9]+\.[0-9]{2}$/;
   const [ownerTotal, setOwnerTotal] = useState(0);
@@ -111,54 +130,23 @@ const CreateTurnsheet = () => {
   const [grandTotal, setGrandTotal] = useState(0);
   const [address, setAddress] = useState("");
   const [securityDeposit, setSecurityDeposit] = useState("");
-  const [securityDepositError, setSecurityDepositError] = useState(false);
   const [ownerBalance, setOwnerBalance] = useState("");
-  const [ownerBalanceError, setOwnerBalanceError] = useState(false);
-
-  const handleTextFieldChange = (e) => {
-    switch (e.target.id) {
-      case "address_textfield":
-        setAddress(e.target.value);
-        break;
-      case "security_deposit_textfield":
-        setSecurityDeposit(e.target.value);
-        break;
-      case "owner_balance_textfield":
-        setOwnerBalance(e.target.value);
-        break;
-      default:
-        console.log(
-          `TextField ID: ${e.target.id} is not currently being handled.`
-        );
-        break;
-    }
-  };
-
-  const validateMoneyFormat = (name) => {
-    switch(name){
-      case 'secDeposit': moneyExp.test(securityDeposit) ? setSecurityDepositError(true) : setSecurityDepositError(false);
-      break;
-      case 'ownerBalance': moneyExp.test(ownerBalance) ? setOwnerBalanceError(true) : setOwnerBalanceError(false);
-      break;
-      default:
-        console.log(`Name: ${name} doesn't exist`);
-    }
-    
-  };
+  const rooms = useArray(['interior']);
+  const items = useArray(DefaultItems);
 
   return (
     <>
-      <AppBar position="fixed">
-        <Toolbar style={{ paddingBottom: 15 }}>
+      <AppBar position="fixed" className={classes.navRoot}>
+        <Toolbar>
           <Grid container spacing={1} justify="space-between">
-            <Grid item xs={12} sm={6} md={8} lg={9} style={{ paddingTop: 10 }}>
+            <Grid item xs={12} sm={6} md={8} lg={9}>
               <Hidden smUp>
-                <Typography variant="h6" align="center" style={{ flexGrow: 1 }}>
+                <Typography variant="h6" align="center">
                   Create Turnsheet
                 </Typography>
               </Hidden>
               <Hidden only="xs">
-                <Typography variant="h6" align="left" style={{ flexGrow: 1 }}>
+                <Typography variant="h6" align="left">
                   Create Turnsheet
                 </Typography>
               </Hidden>
@@ -208,8 +196,8 @@ const CreateTurnsheet = () => {
                   variant="outlined"
                   color="secondary"
                   fullWidth
+                  autoComplete="off"
                   value={address}
-                  onChange={(event) => handleTextFieldChange(event)}
                 />
               </Grid>
               <Grid item xs={6} sm={3} lg={2}>
@@ -219,11 +207,9 @@ const CreateTurnsheet = () => {
                   variant="outlined"
                   color="secondary"
                   fullWidth
+                  autoComplete="off"
                   inputProps={{ pattern: moneyExp }}
                   value={securityDeposit}
-                  error={securityDepositError}
-                  onChange={(event) => handleTextFieldChange(event)}
-                  onBlur={() => validateMoneyFormat('secDeposit')}
                 />
               </Grid>
               <Grid item xs={6} sm={3} lg={2}>
@@ -233,11 +219,9 @@ const CreateTurnsheet = () => {
                   variant="outlined"
                   color="secondary"
                   fullWidth
+                  autoComplete="off"
                   inputProps={{ pattern: moneyExp }}
                   value={ownerBalance}
-                  error={ownerBalanceError}
-                  onChange={(event) => handleTextFieldChange(event)}
-                  onBlur={() => validateMoneyFormat('ownerBalance')}
                 />
               </Grid>
             </Grid>
@@ -246,13 +230,38 @@ const CreateTurnsheet = () => {
       </AppBar>
 
       <Hidden smUp>
-        <Toolbar style={{ height: 250 }} />
+        <VerticalSpace size={250} />
       </Hidden>
       <Hidden only="xs">
-        <Toolbar style={{ height: 130 }} />
+        <VerticalSpace size={150} />
       </Hidden>
-
-      <Typography variant="body1">Items</Typography>
+      
+      <Grid container justify="space-evenly" spacing={1}>
+        {rooms.value.map((room) => {
+          return (
+              <Grid item xs={12} md={4} key={`${room}`} className={classes.roomRoot}>
+                <Paper style={{ padding:10 }}>
+                    <Typography variant="h5">{room}</Typography>
+                    {items.value.length > 0 &&
+                      items.value
+                      .filter(item => item.room === room)
+                      .map((item, index) => {
+                        return (
+                          <Paper key={`item-${index}`} className={classes.roomItemRoot}>
+                            <Grid container justify="space-between" spacing={1}>
+                              <Grid item xs={1}><Typography align="center" variant="caption">X</Typography></Grid>
+                              <Grid item xs={9}><Typography align="left" variant="body1">{item.description}</Typography></Grid>
+                              <Grid item xs={2}><Typography align="right" variant="body1">{item.estimated_total_cost}</Typography></Grid>
+                            </Grid>
+                          </Paper>
+                        )
+                      })
+                    }
+                  </Paper>
+                </Grid>
+          )
+        })}
+      </Grid>
     </>
   );
 };

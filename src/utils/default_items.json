@@ -1,5 +1,6 @@
 [
     {
+      "room": "interior",
       "description": "Standard Cleaning",
       "estimated_labor_hours": 12.5,
       "estimated_labor_total": 250,
@@ -12,6 +13,7 @@
       "count": 1
     },
     {
+      "room": "interior",
       "description": "Air Filter",
       "estimated_labor_hours": 0.25,
       "estimated_labor_total": 5,
@@ -24,6 +26,7 @@
       "count": 1
     },
     {
+      "room": "interior",
       "description": "Pest Control",
       "estimated_labor_hours": 5,
       "estimated_labor_total": 100,
