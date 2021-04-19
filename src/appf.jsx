@@ -5,7 +5,7 @@ import {
   Route,
   useParams,
 } from "react-router-dom";
-import { useArray } from 'react-hanger';
+import { useArray } from "react-hanger";
 import {
   unstable_createMuiStrictModeTheme as createMuiTheme,
   ThemeProvider,
@@ -14,15 +14,21 @@ import {
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {
   AppBar,
-  Box,
+  Checkbox,
   Container,
   Grid,
   Hidden,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  ListSubheader,
   Paper,
   TextField,
   Toolbar,
   Typography,
 } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 import useCreateKey from "./hooks/useCreateKey";
 import DefaultItems from "./utils/default_items.json";
@@ -64,30 +70,39 @@ const theme = createMuiTheme({
 });
 
 const useStyles = makeStyles((theme) => ({
-  navRoot:{
-    padding:`10px 0 15px 0`,
+  navRoot: {
+    padding: `10px 0 15px 0`,
   },
   roomRoot: {
-    flexGrow:1,
+    flexGrow: 1,
     padding: theme.spacing(2),
-    [theme.breakpoints.down('sm')]:{
+    [theme.breakpoints.down("sm")]: {
       "& + :not(firstOfType)": {
-        marginTop: 20
-      }
-    }
+        marginTop: 20,
+      },
+    },
   },
-  roomItemRoot:{
+  roomItemRoot: {
     flexGrow: 1,
     padding: theme.spacing(2),
     "& + :not(firstOfType)": {
-      marginTop: 5
-    }
-  }
+      marginTop: 5,
+    },
+  },
+  listRoot: {
+    width: "100%",
+  },
+  delete_btn: {
+    color: "rgba(158, 2, 2, 0.3)",
+    "& :hover": {
+      color: "rgba(158, 2, 2, 1)",
+    },
+  },
 }));
 
-const VerticalSpace = ({size}) => {
-  return <Toolbar style={{ height: size }} />
-}
+const VerticalSpace = ({ size }) => {
+  return <Toolbar style={{ height: size }} />;
+};
 
 const ViewTurnsheet = () => {
   const { ID } = useParams();
@@ -131,7 +146,7 @@ const CreateTurnsheet = () => {
   const [address, setAddress] = useState("");
   const [securityDeposit, setSecurityDeposit] = useState("");
   const [ownerBalance, setOwnerBalance] = useState("");
-  const rooms = useArray(['interior']);
+  const rooms = useArray(["interior"]);
   const items = useArray(DefaultItems);
 
   return (
@@ -235,33 +250,104 @@ const CreateTurnsheet = () => {
       <Hidden only="xs">
         <VerticalSpace size={150} />
       </Hidden>
-      
-      <Grid container justify="space-evenly" spacing={1}>
-        {rooms.value.map((room) => {
-          return (
-              <Grid item xs={12} md={4} key={`${room}`} className={classes.roomRoot}>
-                <Paper style={{ padding:10 }}>
-                    <Typography variant="h5">{room}</Typography>
-                    {items.value.length > 0 &&
-                      items.value
-                      .filter(item => item.room === room)
+
+      <Hidden xsDown>
+        <Grid container justify="space-between" spacing={1}>
+          {rooms.value.map((room) => {
+            return (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                key={`${room}`}
+                className={classes.roomRoot}
+              >
+                <Paper style={{ padding: 10 }}>
+                  <Grid container justify="space-between" spacing={1}>
+                    <Grid item xs={11}>
+                      <Typography variant="h5">{room}</Typography>
+                    </Grid>
+                    <Grid item xs={1}>
+                      <IconButton
+                        aria-label="delete"
+                        size="small"
+                        className={classes.delete_btn}
+                      >
+                        <DeleteIcon fontSize="inherit" />
+                      </IconButton>
+                    </Grid>
+                  </Grid>
+
+                  {items.value.length > 0 &&
+                    items.value
+                      .filter((item) => item.room === room)
                       .map((item, index) => {
                         return (
-                          <Paper key={`item-${index}`} className={classes.roomItemRoot}>
+                          <Paper
+                            key={`item-${index}`}
+                            className={classes.roomItemRoot}
+                            onClick={() =>
+                              console.log(`Hello from item ${index}`)
+                            }
+                          >
                             <Grid container justify="space-between" spacing={1}>
-                              <Grid item xs={1}><Typography align="center" variant="caption">X</Typography></Grid>
-                              <Grid item xs={9}><Typography align="left" variant="body1">{item.description}</Typography></Grid>
-                              <Grid item xs={2}><Typography align="right" variant="body1">{item.estimated_total_cost}</Typography></Grid>
+                              <Grid item xs={10}>
+                                <Typography align="left" variant="body1">
+                                  {item.description}
+                                </Typography>
+                              </Grid>
+                              <Grid item xs={2}>
+                                <Typography align="right" variant="body1">
+                                  {item.estimated_total_cost}
+                                </Typography>
+                              </Grid>
                             </Grid>
                           </Paper>
-                        )
-                      })
-                    }
-                  </Paper>
-                </Grid>
-          )
-        })}
-      </Grid>
+                        );
+                      })}
+                </Paper>
+              </Grid>
+            );
+          })}
+        </Grid>
+      </Hidden>
+
+      <Hidden smUp>
+        <List className={classes.listRoot} dense subheader={<li />}>
+          {rooms.value.map((room) => {
+            return (
+              <li key={`${room}`}>
+                <ul>
+                  <ListSubheader>{room}</ListSubheader>
+                  {items.value.length > 0 &&
+                    items.value
+                      .filter((item) => item.room === room)
+                      .map((item, index) => {
+                        return (
+                          <ListItem
+                            key={`${room}-item-${index}`}
+                            onClick={() =>
+                              console.log(`Hello from item ${index}`)
+                            }
+                          >
+                            <Grid container>
+                              <Grid item xs={10}>
+                                {item.description}
+                              </Grid>
+                              <Grid item xs={2}>
+                                {item.estimated_total_cost}
+                              </Grid>
+                            </Grid>
+                          </ListItem>
+                        );
+                      })}
+                </ul>
+              </li>
+            );
+          })}
+        </List>
+      </Hidden>
     </>
   );
 };
