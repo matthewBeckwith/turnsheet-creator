@@ -89,11 +89,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   listRoot: {
-    width: '100%',
+    width: "100%",
     backgroundColor: theme.palette.background.paper,
   },
-  listItemRoot:{
-    width:'100%',
+  listItemRoot: {
+    width: "100%",
     left: -20,
   },
   delete_btn: {
@@ -318,33 +318,50 @@ const CreateTurnsheet = () => {
       </Hidden>
 
       <Hidden smUp>
-
         <List className={classes.listRoot} dense subheader={<li />}>
           {rooms.value.map((room) => {
             return (
               <li key={`${room}`}>
                 <ul>
-                  <ListSubheader className={classes.listItemRoot}>{room}</ListSubheader>
+                  <ListSubheader className={classes.listItemRoot}>
+                    {room}
+                  </ListSubheader>
                   {items.value.length > 0 &&
                     items.value
                       .filter((item) => item.room === room)
                       .map((item, index) => {
                         return (
-
-                          <ListItem key={`${room}-item-${index}`} className={classes.listItemRoot} role={undefined} alignItems="flex-start" dense button ContainerComponent="div" onClick={() => console.log(`Hello from item ${index}`)}>
-                            <ListItemText id={item.description} className={classes.listItemText} primary={
-                              <Grid container justify="space-between" spacing={1}>
-                                <Grid item xs={10}>
-                                {item.description}
+                          <ListItem
+                            key={`${room}-item-${index}`}
+                            className={classes.listItemRoot}
+                            role={undefined}
+                            alignItems="flex-start"
+                            dense
+                            button
+                            ContainerComponent="div"
+                            onClick={() =>
+                              console.log(`Hello from item ${index}`)
+                            }
+                          >
+                            <ListItemText
+                              id={item.description}
+                              className={classes.listItemText}
+                              primary={
+                                <Grid
+                                  container
+                                  justify="space-between"
+                                  spacing={1}
+                                >
+                                  <Grid item xs={10}>
+                                    {item.description}
+                                  </Grid>
+                                  <Grid item xs={2}>
+                                    {item.estimated_total_cost}
+                                  </Grid>
                                 </Grid>
-                                <Grid item xs={2}>
-                                {item.estimated_total_cost}
-                                </Grid>
-                              </Grid>
-                            } />
+                              }
+                            />
                           </ListItem>
-
-
                         );
                       })}
                 </ul>
@@ -352,7 +369,6 @@ const CreateTurnsheet = () => {
             );
           })}
         </List>
-
       </Hidden>
     </>
   );
